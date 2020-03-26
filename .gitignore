@@ -1,0 +1,15 @@
+*.exe
+*.sln
+*.vcxproj
+*.filters
+*.user
+.vs/
+pch.cpp
+pch.h
+Debug/
+*.tlog
+*.obj
+*.log
+*.idb
+*.pdb
+*.txt
