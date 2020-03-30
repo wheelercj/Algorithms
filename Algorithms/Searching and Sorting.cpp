@@ -7,7 +7,7 @@ using namespace std;
 
 void print(int[], int);
 void swap(int&, int&);
-void randomize(int[], int);
+void randomize(int[], int, int);
 
 void sort_array(int[], int);
 int print_sort_menu();
@@ -29,7 +29,8 @@ int main()
 {
 	const int size = 10;
 	int numbers[size];
-	randomize(numbers, size);
+	const int max_value = 100;
+	randomize(numbers, size, max_value);
 
 	cout << "\n Unsorted array: ";
 	print(numbers, size);
@@ -69,12 +70,11 @@ void swap(int& a, int& b)
 }
 
 // fill the array with random numbers
-void randomize(int numbers[], int size)
+void randomize(int numbers[], int size, int max)
 {
 	srand((unsigned)time(0));
-	const int min = 1, max = 100;
 	for (int i = 0; i < size; i++)
-		numbers[i] = min + rand() % (max - min + 1);
+		numbers[i] = 1 + rand() % max;
 }
 
 void sort_array(int numbers[], int size)
