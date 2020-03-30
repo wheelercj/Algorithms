@@ -5,7 +5,7 @@ using namespace std;
 // Big-O Cheat Sheet: https://www.bigocheatsheet.com/
 // Why quicksort is better than other sorting algorithms in practice: https://cs.stackexchange.com/questions/3/why-is-quicksort-better-than-other-sorting-algorithms-in-practice
 
-void display(int[], int);
+void print(int[], int);
 void swap(int&, int&);
 void randomize(int[], int);
 
@@ -32,12 +32,12 @@ int main()
 	randomize(numbers, size);
 
 	cout << "\n Unsorted array: ";
-	display(numbers, size);
+	print(numbers, size);
 
 	sort_array(numbers, size);
 
 	cout << "\n Sorted array: ";
-	display(numbers, size);
+	print(numbers, size);
 
 	cout << "\n What value are you looking for? ";
 	int value;
@@ -55,7 +55,7 @@ int main()
 	return 0;
 }
 
-void display(int numbers[], int size)
+void print(int numbers[], int size)
 {
 	for (int i = 0; i < size; i++)
 		cout << " " << numbers[i];
@@ -200,14 +200,14 @@ void quicksort(int numbers[], int first, int last)
 
 int partition(int numbers[], int first, int last)
 {
-	int pivotValue = numbers[first + (last - first) / 2];
+	int pivot_value = numbers[first + (last - first) / 2];
 	// `first+(last-first)/2` is the same as `(first+last)/2`, but cannot overflow
 
 	while (first <= last)
 	{
-		while (numbers[first] < pivotValue)
+		while (numbers[first] < pivot_value)
 			first++;
-		while (numbers[last] > pivotValue)
+		while (numbers[last] > pivot_value)
 			last--;
 		if (first <= last)
 		{
@@ -235,56 +235,56 @@ void merge_sort(int numbers[], int left, int right)
 
 void merge(int numbers[], int left, int mid, int right)
 {
-	const int LSize = mid - left + 1,
-		RSize = right - mid;
+	const int left_size = mid - left + 1,
+		right_size = right - mid;
 	
-	int* tempLeft = new int[LSize];
-	int* tempRight = new int[RSize];
+	int* temp_left = new int[left_size];
+	int* temp_right = new int[right_size];
 
 	// copy the data to the temp arrays
-	for (int i = 0; i < LSize; i++)
-		tempLeft[i] = numbers[left + i];
-	for (int j = 0; j < RSize; j++)
-		tempRight[j] = numbers[mid + 1 + j];
+	for (int i = 0; i < left_size; i++)
+		temp_left[i] = numbers[left + i];
+	for (int j = 0; j < right_size; j++)
+		temp_right[j] = numbers[mid + 1 + j];
 
 	// merge the temp arrays back into the numbers array
 	int L = 0,
 		R = 0,
 		i = left;
-	while (L < LSize && R < RSize)
+	while (L < left_size && R < right_size)
 	{
-		if (tempLeft[L] <= tempRight[R])
+		if (temp_left[L] <= temp_right[R])
 		{
-			numbers[i] = tempLeft[L];
+			numbers[i] = temp_left[L];
 			L++;
 		}
 		else
 		{
-			numbers[i] = tempRight[R];
+			numbers[i] = temp_right[R];
 			R++;
 		}
 
 		i++;
 	}
 
-	// copy the remaining elements of tempLeft[], if there are any
-	while (L < LSize)
+	// copy the remaining elements of temp_left[], if there are any
+	while (L < left_size)
 	{
-		numbers[i] = tempLeft[L];
+		numbers[i] = temp_left[L];
 		L++;
 		i++;
 	}
 
-	// copy the remaining elements of tempRight[], if there are any
-	while (R < RSize)
+	// copy the remaining elements of temp_right[], if there are any
+	while (R < right_size)
 	{
-		numbers[i] = tempRight[R];
+		numbers[i] = temp_right[R];
 		R++;
 		i++;
 	}
 
-	delete[] tempLeft;
-	delete[] tempRight;
+	delete[] temp_left;
+	delete[] temp_right;
 }
 
 int linear_search(int numbers[], int size, int value)
@@ -304,7 +304,7 @@ int binary_search(int numbers[], int size, int value)
 
 	while (true)
 	{
-		int mid = (size + first) / 2;
+		int mid = first + (size - first) / 2;
 
 		if (numbers[mid] > value)
 			size = mid - 1;
