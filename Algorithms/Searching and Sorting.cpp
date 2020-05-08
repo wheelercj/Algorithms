@@ -3,12 +3,12 @@
 using namespace std;
 
 // Big-O Cheat Sheet: https://www.bigocheatsheet.com/
+// Data structure visualization: https://www.cs.usfca.edu/~galles/visualization/Algorithms.html
 // Why quicksort is better than other sorting algorithms in practice: https://cs.stackexchange.com/questions/3/why-is-quicksort-better-than-other-sorting-algorithms-in-practice
 
 void print(int[], int);
-void swap(int&, int&);
+inline void swap(int&, int&);
 void randomize(int[], int, int);
-
 void sort_array(int[], int);
 int print_sort_menu();
 int search_array(int[], int, int);
@@ -21,6 +21,11 @@ void quicksort(int[], int, int);
 int partition(int[], int, int);
 void merge_sort(int[], int, int);
 void merge(int[], int, int, int);
+// TODO:
+// implement heap sort
+// implement radix sort
+// implement bogo sort
+// use template functions
 
 int linear_search(int[], int, int);
 int binary_search(int[], int, int);
@@ -62,7 +67,7 @@ void print(int numbers[], int size)
 		cout << " " << numbers[i];
 }
 
-void swap(int& a, int& b)
+inline void swap(int& a, int& b)
 {
 	int temp = a;
 	a = b;
