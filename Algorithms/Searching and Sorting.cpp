@@ -2,10 +2,6 @@
 #include <ctime>
 using namespace std;
 
-// Big-O Cheat Sheet: https://www.bigocheatsheet.com/
-// Data structure visualization: https://www.cs.usfca.edu/~galles/visualization/Algorithms.html
-// Why quicksort is better than other sorting algorithms in practice: https://cs.stackexchange.com/questions/3/why-is-quicksort-better-than-other-sorting-algorithms-in-practice
-
 void print(int[], int);
 inline void swap(int&, int&);
 void randomize(int[], int, int);
