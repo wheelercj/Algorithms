@@ -21,11 +21,6 @@ void quicksort(int[], int, int);
 int partition(int[], int, int);
 void merge_sort(int[], int, int);
 void merge(int[], int, int, int);
-// TODO:
-// implement heap sort
-// implement radix sort
-// implement bogo sort
-// use template functions
 
 int linear_search(int[], int, int);
 int binary_search(int[], int, int);
