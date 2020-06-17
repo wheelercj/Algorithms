@@ -17,7 +17,6 @@ Examples of basic algorithms implemented in C++.
 * Random number generation
 
 ## Coming soon
-* Template functions so these algorithms work with many data types
 * Heap sort
 * Radix sort
 * Bogo sort?

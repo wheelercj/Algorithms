@@ -2,24 +2,24 @@
 #include <ctime>
 using namespace std;
 
-void print(int[], int);
+template <class T> void print(T[], int);
 inline void swap(int&, int&);
-void randomize(int[], int, int);
-void sort_array(int[], int);
+template <class T> void randomize(T[], int, T);
+template <class T> void sort_array(T[], int);
 int print_sort_menu();
-int search_array(int[], int, int);
+template <class T> int search_array(T[], int, T);
 int print_search_menu();
 
-void bubble_sort(int[], int);
-void selection_sort(int[], int);
-void insertion_sort(int[], int);
-void quicksort(int[], int, int);
-int partition(int[], int, int);
-void merge_sort(int[], int, int);
-void merge(int[], int, int, int);
+template <class T> void bubble_sort(T[], int);
+template <class T> void selection_sort(T[], int);
+template <class T> void insertion_sort(T[], int);
+template <class T> void quicksort(T[], int, int);
+template <class T> int partition(T[], int, int);
+template <class T> void merge_sort(T[], int, int);
+template <class T> void merge(T[], int, int, int);
 
-int linear_search(int[], int, int);
-int binary_search(int[], int, int);
+template <class T> int linear_search(T[], int, T);
+template <class T> int binary_search(T[], int, T);
 
 int main()
 {
@@ -52,7 +52,8 @@ int main()
 	return 0;
 }
 
-void print(int numbers[], int size)
+template <class T>
+void print(T numbers[], int size)
 {
 	for (int i = 0; i < size; i++)
 		cout << " " << numbers[i];
@@ -66,14 +67,16 @@ inline void swap(int& a, int& b)
 }
 
 // fill the array with random numbers
-void randomize(int numbers[], int size, int max)
+template <class T>
+void randomize(T numbers[], int size, T max)
 {
 	srand((unsigned)time(0));
 	for (int i = 0; i < size; i++)
 		numbers[i] = 1 + rand() % max;
 }
 
-void sort_array(int numbers[], int size)
+template <class T>
+void sort_array(T numbers[], int size)
 {
 	switch (print_sort_menu())
 	{
@@ -111,7 +114,8 @@ int print_sort_menu()
 	return choice;
 }
 
-int search_array(int numbers[], int size, int value)
+template <class T>
+int search_array(T numbers[], int size, T value)
 {
 	switch (print_search_menu())
 	{
@@ -135,7 +139,8 @@ int print_search_menu()
 	return choice;
 }
 
-void bubble_sort(int numbers[], int size)
+template <class T>
+void bubble_sort(T numbers[], int size)
 {
 	bool swapped = true;
 
@@ -154,7 +159,8 @@ void bubble_sort(int numbers[], int size)
 	}
 }
 
-void selection_sort(int numbers[], int size)
+template <class T>
+void selection_sort(T numbers[], int size)
 {
 	for (int i = 0; i < size - 1; i++)
 	{
@@ -170,11 +176,12 @@ void selection_sort(int numbers[], int size)
 	}
 }
 
-void insertion_sort(int numbers[], int size)
+template <class T>
+void insertion_sort(T numbers[], int size)
 {
 	for (int i = 1; i < size; i++)
 	{
-		int key = numbers[i];
+		T key = numbers[i];
 
 		int j = i - 1;
 		for (; j >= 0 && key < numbers[j]; j--)
@@ -184,7 +191,8 @@ void insertion_sort(int numbers[], int size)
 	}
 }
 
-void quicksort(int numbers[], int first, int last)
+template <class T>
+void quicksort(T numbers[], int first, int last)
 {
 	if (first < last)
 	{
@@ -194,9 +202,10 @@ void quicksort(int numbers[], int first, int last)
 	}
 }
 
-int partition(int numbers[], int first, int last)
+template <class T>
+int partition(T numbers[], int first, int last)
 {
-	int pivot_value = numbers[first + (last - first) / 2];
+	T pivot_value = numbers[first + (last - first) / 2];
 	// `first+(last-first)/2` is the same as `(first+last)/2`, but cannot overflow
 
 	while (first <= last)
@@ -216,7 +225,8 @@ int partition(int numbers[], int first, int last)
 	return first;
 }
 
-void merge_sort(int numbers[], int left, int right)
+template <class T>
+void merge_sort(T numbers[], int left, int right)
 {
 	if (left < right)
 	{
@@ -229,13 +239,14 @@ void merge_sort(int numbers[], int left, int right)
 	}
 }
 
-void merge(int numbers[], int left, int mid, int right)
+template <class T>
+void merge(T numbers[], int left, int mid, int right)
 {
 	const int left_size = mid - left + 1,
 		right_size = right - mid;
 	
-	int* temp_left = new int[left_size];
-	int* temp_right = new int[right_size];
+	T* temp_left = new int[left_size];
+	T* temp_right = new int[right_size];
 
 	// copy the data to the temp arrays
 	for (int i = 0; i < left_size; i++)
@@ -283,7 +294,8 @@ void merge(int numbers[], int left, int mid, int right)
 	delete[] temp_right;
 }
 
-int linear_search(int numbers[], int size, int value)
+template <class T>
+int linear_search(T numbers[], int size, T value)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -294,13 +306,15 @@ int linear_search(int numbers[], int size, int value)
 	return -1;
 }
 
-int binary_search(int numbers[], int size, int value)
+template <class T>
+int binary_search(T numbers[], int size, T value)
 {
 	int first = 0;
 
 	while (true)
 	{
 		int mid = first + (size - first) / 2;
+		// `first+(size-first)/2` is the same as `(first+size)/2`, but cannot overflow
 
 		if (numbers[mid] > value)
 			size = mid - 1;
