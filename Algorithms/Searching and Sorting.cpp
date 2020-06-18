@@ -3,7 +3,7 @@
 using namespace std;
 
 template <class T> void print(T[], int);
-inline void swap(int&, int&);
+template <class T> inline void Swap(T&, T&);
 template <class T> void randomize(T[], int, T);
 template <class T> void sort_array(T[], int);
 int print_sort_menu();
@@ -60,9 +60,10 @@ void print(T numbers[], int size)
 		cout << " " << numbers[i];
 }
 
-inline void swap(int& a, int& b)
+template <class T>
+inline void Swap(T& a, T& b)
 {
-	int temp = a;
+	T temp = a;
 	a = b;
 	b = temp;
 }
@@ -158,7 +159,7 @@ void bubble_sort(T numbers[], int size)
 			if (numbers[i] > numbers[i + 1])
 			{
 				swapped = true;
-				swap(numbers[i], numbers[i + 1]);
+				Swap(numbers[i], numbers[i + 1]);
 			}
 		}
 	}
@@ -177,7 +178,7 @@ void selection_sort(T numbers[], int size)
 				low = j;
 		}
 
-		swap(numbers[low], numbers[i]);
+		Swap(numbers[low], numbers[i]);
 	}
 }
 
@@ -221,7 +222,7 @@ int partition(T numbers[], int first, int last)
 			last--;
 		if (first <= last)
 		{
-			swap(numbers[first], numbers[last]);
+			Swap(numbers[first], numbers[last]);
 			first++;
 			last--;
 		}
@@ -308,7 +309,7 @@ void heap_sort(T numbers[], int size)
 		int j = i;
 		while (numbers[j] > numbers[(j - 1) / 2])
 		{
-			swap(numbers[j], numbers[(j - 1) / 2]);
+			Swap(numbers[j], numbers[(j - 1) / 2]);
 			j = (j - 1) / 2;
 		}
 	}
@@ -316,7 +317,7 @@ void heap_sort(T numbers[], int size)
 	// Sort the array by putting the greatest number at the end, then
 	// the second greatest number in the second to last spot, etc.
 	int last = size - 1;
-	swap(numbers[0], numbers[last]);
+	Swap(numbers[0], numbers[last]);
 	last--;
 
 	while (last > 0)
@@ -340,7 +341,7 @@ void heap_sort(T numbers[], int size)
 			if (numbers[max] > numbers[parent])
 			{
 				// swap the child and the parent
-				swap(numbers[max], numbers[parent]);
+				Swap(numbers[max], numbers[parent]);
 
 				// Prepare to check whether further swapping is needed to
 				// finish rebuilding the heap.
@@ -354,7 +355,7 @@ void heap_sort(T numbers[], int size)
 				heaping = false;
 		}
 
-		swap(numbers[0], numbers[last]);
+		Swap(numbers[0], numbers[last]);
 		last--;
 	}
 }
