@@ -17,6 +17,7 @@ template <class T> void quicksort(T[], int, int);
 template <class T> int partition(T[], int, int);
 template <class T> void merge_sort(T[], int, int);
 template <class T> void merge(T[], int, int, int);
+template <class T> void heap_sort(T[], int);
 
 template <class T> int linear_search(T[], int, T);
 template <class T> int binary_search(T[], int, T);
@@ -95,6 +96,9 @@ void sort_array(T numbers[], int size)
 	case 5:
 		merge_sort(numbers, 0, size - 1);
 		break;
+	case 6:
+		heap_sort(numbers, size);
+		break;
 	default:
 		cout << "\n Error";
 	}
@@ -109,6 +113,7 @@ int print_sort_menu()
 		"\n 3. Insertion sort"
 		"\n 4. Quicksort"
 		"\n 5. Merge sort"
+		"\n 6. Heap sort"
 		"\n> ";
 	cin >> choice;
 	return choice;
@@ -292,6 +297,66 @@ void merge(T numbers[], int left, int mid, int right)
 
 	delete[] temp_left;
 	delete[] temp_right;
+}
+
+template<class T>
+void heap_sort(T numbers[], int size)
+{
+	// turn the array into a max heap
+	for (int i = 0; i < size; i++)
+	{
+		int j = i;
+		while (numbers[j] > numbers[(j - 1) / 2])
+		{
+			swap(numbers[j], numbers[(j - 1) / 2]);
+			j = (j - 1) / 2;
+		}
+	}
+
+	// Sort the array by putting the greatest number at the end, then
+	// the second greatest number in the second to last spot, etc.
+	int last = size - 1;
+	swap(numbers[0], numbers[last]);
+	last--;
+
+	while (last > 0)
+	{
+		// rebuild the heap within the remaining elements
+		int parent = 0,
+			left_child = 1,
+			right_child = 2;
+
+		bool heaping = true;
+		while (heaping)
+		{
+			// find the greater of the two children
+			int max;
+			if (right_child > last || numbers[left_child] > numbers[right_child])
+				max = left_child;
+			else
+				max = right_child;
+			
+			// if the child is greater than the parent
+			if (numbers[max] > numbers[parent])
+			{
+				// swap the child and the parent
+				swap(numbers[max], numbers[parent]);
+
+				// Prepare to check whether further swapping is needed to
+				// finish rebuilding the heap.
+				parent = max;
+				left_child = parent * 2 + 1;
+				right_child = parent * 2 + 2;
+				if (left_child >= last)
+					heaping = false;
+			}
+			else
+				heaping = false;
+		}
+
+		swap(numbers[0], numbers[last]);
+		last--;
+	}
 }
 
 template <class T>

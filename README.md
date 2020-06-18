@@ -8,6 +8,7 @@ Examples of basic algorithms implemented in C++.
 * Insertion sort
 * Quicksort
 * Merge sort
+* Heap sort
 
 ## Searching algorithms
 * Linear search
@@ -17,7 +18,6 @@ Examples of basic algorithms implemented in C++.
 * Random number generation
 
 ## Coming soon
-* Heap sort
 * Radix sort
 * Bogo sort?
 
