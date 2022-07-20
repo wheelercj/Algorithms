@@ -1,6 +1,6 @@
 # Algorithms
 
-Examples of some basic algorithms implemented in C++.
+Examples of some basic algorithms implemented in C++ and Java.
 
 ## Sorting algorithms
 * Bubble sort

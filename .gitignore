@@ -13,3 +13,5 @@ Debug/
 *.idb
 *.pdb
 *.txt
+*.iml
+out
