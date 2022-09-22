@@ -2,8 +2,11 @@
 #include <ctime>
 using namespace std;
 
+void manual_test();
+void automatic_test();
 template <class T> void print(T[], int);
-template <class T> inline void Swap(T&, T&);
+template <class T> void assert_sorted(T[], int);
+template <class T> inline void swap_(T&, T&);
 template <class T> void randomize(T[], int, T);
 template <class T> void sort_array(T[], int);
 int print_sort_menu();
@@ -18,11 +21,32 @@ template <class T> int partition(T[], int, int);
 template <class T> void merge_sort(T[], int, int);
 template <class T> void merge(T[], int, int, int);
 template <class T> void heap_sort(T[], int);
+template <class T> void shell_sort(T[], int);
 
 template <class T> int linear_search(T[], int, T);
 template <class T> int binary_search(T[], int, T);
 
 int main()
+{
+	string choice = "";
+	while (choice != "3")
+	{
+		cout << "\n\n 1. run algorithms once"
+			"\n 2. run a sorting algorithm many times"
+			"\n 3. exit"
+			"\n> ";
+		cin >> choice;
+		if (choice == "1")
+			manual_test();
+		else if (choice == "2")
+			automatic_test();
+	}
+	cout << endl;
+	system("pause");
+	return 0;
+}
+
+void manual_test()
 {
 	const int size = 10;
 	int numbers[size];
@@ -47,10 +71,86 @@ int main()
 		cout << "\n Error: number not found.";
 	else
 		cout << "\n The value is in element " << result;
+}
 
-	cout << endl;
-	system("pause");
-	return 0;
+void automatic_test()
+{
+	const int size = 10;
+	int numbers[size];
+	const int max_value = 100;
+	cout << "\n Repetitions: ";
+	int reps;
+	cin >> reps;
+	int reps_copy = reps;
+	try
+	{
+		switch (print_sort_menu())
+		{
+		case 1:
+			for (; reps_copy > 0; reps_copy--)
+			{
+				randomize(numbers, size, max_value);
+				bubble_sort(numbers, size);
+				assert_sorted(numbers, size);
+			}
+			break;
+		case 2:
+			for (; reps_copy > 0; reps_copy--)
+			{
+				randomize(numbers, size, max_value);
+				selection_sort(numbers, size);
+				assert_sorted(numbers, size);
+			}
+			break;
+		case 3:
+			for (; reps_copy > 0; reps_copy--)
+			{
+				randomize(numbers, size, max_value);
+				insertion_sort(numbers, size);
+				assert_sorted(numbers, size);
+			}
+			break;
+		case 4:
+			for (; reps_copy > 0; reps_copy--)
+			{
+				randomize(numbers, size, max_value);
+				quicksort(numbers, 0, size - 1);
+				assert_sorted(numbers, size);
+			}
+			break;
+		case 5:
+			for (; reps_copy > 0; reps_copy--)
+			{
+				randomize(numbers, size, max_value);
+				merge_sort(numbers, 0, size - 1);
+				assert_sorted(numbers, size);
+			}
+			break;
+		case 6:
+			for (; reps_copy > 0; reps_copy--)
+			{
+				randomize(numbers, size, max_value);
+				heap_sort(numbers, size);
+				assert_sorted(numbers, size);
+			}
+			break;
+		case 7:
+			for (; reps_copy > 0; reps_copy--)
+			{
+				randomize(numbers, size, max_value);
+				shell_sort(numbers, size);
+				assert_sorted(numbers, size);
+			}
+			break;
+		default:
+			cout << "\n Error: invalid sorting algorithm choice.";
+		}
+		cout << "\n Sorted " << reps << " times successfully.";
+	}
+	catch (std::invalid_argument e)
+	{
+		cout << "\n Error: the numbers did not sort successfully.";
+	}
 }
 
 template <class T>
@@ -60,8 +160,19 @@ void print(T numbers[], int size)
 		cout << " " << numbers[i];
 }
 
+/* Throws std::invalid_argument if the given array is not sorted. */
+template<class T>
+void assert_sorted(T numbers[], int size)
+{
+	for (int i = 1; i < size; i++)
+	{
+		if (numbers[i - 1] > numbers[i])
+			throw std::invalid_argument("The numbers are not sorted.");
+	}
+}
+
 template <class T>
-inline void Swap(T& a, T& b)
+inline void swap_(T& a, T& b)
 {
 	T temp = a;
 	a = b;
@@ -100,8 +211,11 @@ void sort_array(T numbers[], int size)
 	case 6:
 		heap_sort(numbers, size);
 		break;
+	case 7:
+		shell_sort(numbers, size);
+		break;
 	default:
-		cout << "\n Error";
+		cout << "\n Error: invalid sorting algorithm choice.";
 	}
 }
 
@@ -115,6 +229,7 @@ int print_sort_menu()
 		"\n 4. Quicksort"
 		"\n 5. Merge sort"
 		"\n 6. Heap sort"
+		"\n 7. Shell sort"
 		"\n> ";
 	cin >> choice;
 	return choice;
@@ -159,7 +274,7 @@ void bubble_sort(T numbers[], int size)
 			if (numbers[i] > numbers[i + 1])
 			{
 				swapped = true;
-				Swap(numbers[i], numbers[i + 1]);
+				swap_(numbers[i], numbers[i + 1]);
 			}
 		}
 	}
@@ -178,7 +293,7 @@ void selection_sort(T numbers[], int size)
 				low = j;
 		}
 
-		Swap(numbers[low], numbers[i]);
+		swap_(numbers[low], numbers[i]);
 	}
 }
 
@@ -222,7 +337,7 @@ int partition(T numbers[], int first, int last)
 			last--;
 		if (first <= last)
 		{
-			Swap(numbers[first], numbers[last]);
+			swap_(numbers[first], numbers[last]);
 			first++;
 			last--;
 		}
@@ -309,7 +424,7 @@ void heap_sort(T numbers[], int size)
 		int j = i;
 		while (numbers[j] > numbers[(j - 1) / 2])
 		{
-			Swap(numbers[j], numbers[(j - 1) / 2]);
+			swap_(numbers[j], numbers[(j - 1) / 2]);
 			j = (j - 1) / 2;
 		}
 	}
@@ -317,7 +432,7 @@ void heap_sort(T numbers[], int size)
 	// Sort the array by putting the greatest number at the end, then
 	// the second greatest number in the second to last spot, etc.
 	int last = size - 1;
-	Swap(numbers[0], numbers[last]);
+	swap_(numbers[0], numbers[last]);
 	last--;
 
 	while (last > 0)
@@ -341,7 +456,7 @@ void heap_sort(T numbers[], int size)
 			if (numbers[max] > numbers[parent])
 			{
 				// swap the child and the parent
-				Swap(numbers[max], numbers[parent]);
+				swap_(numbers[max], numbers[parent]);
 
 				// Prepare to check whether further swapping is needed to
 				// finish rebuilding the heap.
@@ -355,8 +470,24 @@ void heap_sort(T numbers[], int size)
 				heaping = false;
 		}
 
-		Swap(numbers[0], numbers[last]);
+		swap_(numbers[0], numbers[last]);
 		last--;
+	}
+}
+
+template<class T>
+void shell_sort(T numbers[], int size)
+{
+	for (int gap = size / 2; gap > 0; gap /= 2)
+	{
+		for (int i = gap; i < size; i++)
+		{
+			T temp = numbers[i];
+			int j = i;
+			for (; j >= gap && numbers[j - gap] > temp; j -= gap)
+				numbers[j] = numbers[j - gap];
+			numbers[j] = temp;
+		}
 	}
 }
 

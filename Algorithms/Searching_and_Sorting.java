@@ -55,6 +55,7 @@ public class Searching_and_Sorting {
                 case 4 -> quicksort(numbers, 0, numbers.length - 1);
                 case 5 -> merge_sort(numbers, 0, numbers.length - 1);
                 case 6 -> heap_sort(numbers);
+                case 7 -> shell_sort(numbers);
                 default -> {
                     System.out.println("Error");
                     invalid_input = true;
@@ -71,6 +72,7 @@ public class Searching_and_Sorting {
         System.out.println("4. quicksort");
         System.out.println("5. merge sort");
         System.out.println("6. heap sort");
+        System.out.println("7. shell sort");
         System.out.print("> ");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
@@ -265,6 +267,18 @@ public class Searching_and_Sorting {
             numbers[0] = numbers[last];
             numbers[last] = temp2;
             last--;
+        }
+    }
+
+    public static void shell_sort(int[] numbers) {
+        for (int gap = numbers.length / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < numbers.length; i++) {
+                int temp = numbers[i];
+                int j = i;
+                for (; j >= gap && numbers[j - gap] > temp; j -= gap)
+                    numbers[j] = numbers[j - gap];
+                numbers[j] = temp;
+            }
         }
     }
 
