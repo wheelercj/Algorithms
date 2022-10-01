@@ -16,12 +16,12 @@ int print_search_menu();
 template <class T> void bubble_sort(T[], int);
 template <class T> void selection_sort(T[], int);
 template <class T> void insertion_sort(T[], int);
+template <class T> void shell_sort(T[], int);
 template <class T> void quicksort(T[], int, int);
 template <class T> int partition(T[], int, int);
 template <class T> void merge_sort(T[], int, int);
 template <class T> void merge(T[], int, int, int);
 template <class T> void heap_sort(T[], int);
-template <class T> void shell_sort(T[], int);
 
 template <class T> int linear_search(T[], int, T);
 template <class T> int binary_search(T[], int, T);
@@ -114,7 +114,7 @@ void automatic_test()
 			for (; reps_copy > 0; reps_copy--)
 			{
 				randomize(numbers, size, max_value);
-				quicksort(numbers, 0, size - 1);
+				shell_sort(numbers, size);
 				assert_sorted(numbers, size);
 			}
 			break;
@@ -122,7 +122,7 @@ void automatic_test()
 			for (; reps_copy > 0; reps_copy--)
 			{
 				randomize(numbers, size, max_value);
-				merge_sort(numbers, 0, size - 1);
+				quicksort(numbers, 0, size - 1);
 				assert_sorted(numbers, size);
 			}
 			break;
@@ -130,7 +130,7 @@ void automatic_test()
 			for (; reps_copy > 0; reps_copy--)
 			{
 				randomize(numbers, size, max_value);
-				heap_sort(numbers, size);
+				merge_sort(numbers, 0, size - 1);
 				assert_sorted(numbers, size);
 			}
 			break;
@@ -138,7 +138,7 @@ void automatic_test()
 			for (; reps_copy > 0; reps_copy--)
 			{
 				randomize(numbers, size, max_value);
-				shell_sort(numbers, size);
+				heap_sort(numbers, size);
 				assert_sorted(numbers, size);
 			}
 			break;
@@ -203,16 +203,16 @@ void sort_array(T numbers[], int size)
 		insertion_sort(numbers, size);
 		break;
 	case 4:
-		quicksort(numbers, 0, size - 1);
+		shell_sort(numbers, size);
 		break;
 	case 5:
-		merge_sort(numbers, 0, size - 1);
+		quicksort(numbers, 0, size - 1);
 		break;
 	case 6:
-		heap_sort(numbers, size);
+		merge_sort(numbers, 0, size - 1);
 		break;
 	case 7:
-		shell_sort(numbers, size);
+		heap_sort(numbers, size);
 		break;
 	default:
 		cout << "\n Error: invalid sorting algorithm choice.";
@@ -226,10 +226,10 @@ int print_sort_menu()
 		"\n 1. Bubble sort"
 		"\n 2. Selection sort"
 		"\n 3. Insertion sort"
-		"\n 4. Quicksort"
-		"\n 5. Merge sort"
-		"\n 6. Heap sort"
-		"\n 7. Shell sort"
+		"\n 4. Shell sort"
+		"\n 5. Quicksort"
+		"\n 6. Merge sort"
+		"\n 7. Heap sort"
 		"\n> ";
 	cin >> choice;
 	return choice;
@@ -309,6 +309,22 @@ void insertion_sort(T numbers[], int size)
 			numbers[j + 1] = numbers[j];
 
 		numbers[j + 1] = key;
+	}
+}
+
+template<class T>
+void shell_sort(T numbers[], int size)
+{
+	for (int gap = size / 2; gap > 0; gap /= 2)
+	{
+		for (int i = gap; i < size; i++)
+		{
+			T temp = numbers[i];
+			int j = i;
+			for (; j >= gap && numbers[j - gap] > temp; j -= gap)
+				numbers[j] = numbers[j - gap];
+			numbers[j] = temp;
+		}
 	}
 }
 
@@ -472,22 +488,6 @@ void heap_sort(T numbers[], int size)
 
 		swap_(numbers[0], numbers[last]);
 		last--;
-	}
-}
-
-template<class T>
-void shell_sort(T numbers[], int size)
-{
-	for (int gap = size / 2; gap > 0; gap /= 2)
-	{
-		for (int i = gap; i < size; i++)
-		{
-			T temp = numbers[i];
-			int j = i;
-			for (; j >= gap && numbers[j - gap] > temp; j -= gap)
-				numbers[j] = numbers[j - gap];
-			numbers[j] = temp;
-		}
 	}
 }
 

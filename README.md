@@ -6,10 +6,10 @@ Examples of some basic algorithms implemented in C++ and Java.
 * Bubble sort
 * Selection sort
 * Insertion sort
+* Shell sort
 * Quicksort
 * Merge sort
 * Heap sort
-* Shell sort
 
 ## Searching algorithms
 * Linear search
