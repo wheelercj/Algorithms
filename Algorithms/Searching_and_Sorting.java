@@ -140,6 +140,18 @@ public class Searching_and_Sorting {
         }
     }
 
+    public static void shell_sort(int[] numbers) {
+        for (int gap = numbers.length / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < numbers.length; i++) {
+                int temp = numbers[i];
+                int j = i;
+                for (; j >= gap && numbers[j - gap] > temp; j -= gap)
+                    numbers[j] = numbers[j - gap];
+                numbers[j] = temp;
+            }
+        }
+    }
+
     public static void quicksort(int[] numbers, int first, int last) {
         if (first < last) {
             int pivot = partition(numbers, first, last);
@@ -267,18 +279,6 @@ public class Searching_and_Sorting {
             numbers[0] = numbers[last];
             numbers[last] = temp2;
             last--;
-        }
-    }
-
-    public static void shell_sort(int[] numbers) {
-        for (int gap = numbers.length / 2; gap > 0; gap /= 2) {
-            for (int i = gap; i < numbers.length; i++) {
-                int temp = numbers[i];
-                int j = i;
-                for (; j >= gap && numbers[j - gap] > temp; j -= gap)
-                    numbers[j] = numbers[j - gap];
-                numbers[j] = temp;
-            }
         }
     }
 
