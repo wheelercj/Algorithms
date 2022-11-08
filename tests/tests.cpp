@@ -38,6 +38,40 @@ namespace tests
 				);
 		}
 
+		// Raises std::logic_error if the array is not sorted.
+		// Does nothing otherwise.
+		template<class T>
+		void require_sorted(T arr[], const int size)
+		{
+			for (int i = 1; i < size; i++)
+			{
+				if (arr[i - 1] > arr[i])
+					throw std::logic_error("The array is not sorted");
+			}
+		}
+
+		void fail_sort()
+		{
+			const int size = 10;
+			int numbers[size];
+			const int max_value = 10;
+			while (true)
+			{
+				randomize(numbers, size, max_value);
+				bubble_sort(numbers, size);
+				if (numbers[0] == numbers[9])
+					continue;
+				swap_(numbers[0], numbers[9]);
+				require_sorted(numbers, size);
+			}
+		}
+
+		TEST_METHOD(test_failing_sort)
+		{
+			auto f = [&] { fail_sort(); };
+			Assert::ExpectException<std::logic_error>(f);
+		}
+
 		TEST_METHOD(test_bubble_sort)
 		{
 			const int size = 100;
