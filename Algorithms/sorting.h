@@ -1,11 +1,9 @@
 #pragma once
 
-void manual_test();
-void automatic_test();
+void manual_sorting_test();
 template <class T> void print(T[], int);
-template <class T> void assert_sorted(T[], int);
 template <class T> inline void swap_(T&, T&);
-template <class T> void randomize(T[], int, T);
+void randomize(int[], int, int);
 template <class T> void sort_array(T[], int);
 int print_sort_menu();
 template <class T> int search_array(T[], int, T);

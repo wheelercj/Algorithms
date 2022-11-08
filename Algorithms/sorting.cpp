@@ -3,8 +3,15 @@
 #include "sorting.h"
 using namespace std;
 
+// Fills the array with random numbers.
+void randomize(int numbers[], int size, int max)
+{
+	srand((unsigned)time(0));
+	for (int i = 0; i < size; i++)
+		numbers[i] = 1 + rand() % max;
+}
 
-void manual_test()
+void manual_sorting_test()
 {
 	const int size = 10;
 	int numbers[size];
@@ -31,102 +38,11 @@ void manual_test()
 		cout << "\n The value is in element " << result;
 }
 
-void automatic_test()
-{
-	const int size = 10;
-	int numbers[size];
-	const int max_value = 100;
-	cout << "\n Repetitions: ";
-	int reps;
-	cin >> reps;
-	int reps_copy = reps;
-	try
-	{
-		switch (print_sort_menu())
-		{
-		case 1:
-			for (; reps_copy > 0; reps_copy--)
-			{
-				randomize(numbers, size, max_value);
-				bubble_sort(numbers, size);
-				assert_sorted(numbers, size);
-			}
-			break;
-		case 2:
-			for (; reps_copy > 0; reps_copy--)
-			{
-				randomize(numbers, size, max_value);
-				selection_sort(numbers, size);
-				assert_sorted(numbers, size);
-			}
-			break;
-		case 3:
-			for (; reps_copy > 0; reps_copy--)
-			{
-				randomize(numbers, size, max_value);
-				insertion_sort(numbers, size);
-				assert_sorted(numbers, size);
-			}
-			break;
-		case 4:
-			for (; reps_copy > 0; reps_copy--)
-			{
-				randomize(numbers, size, max_value);
-				shell_sort(numbers, size);
-				assert_sorted(numbers, size);
-			}
-			break;
-		case 5:
-			for (; reps_copy > 0; reps_copy--)
-			{
-				randomize(numbers, size, max_value);
-				quicksort(numbers, 0, size - 1);
-				assert_sorted(numbers, size);
-			}
-			break;
-		case 6:
-			for (; reps_copy > 0; reps_copy--)
-			{
-				randomize(numbers, size, max_value);
-				merge_sort(numbers, 0, size - 1);
-				assert_sorted(numbers, size);
-			}
-			break;
-		case 7:
-			for (; reps_copy > 0; reps_copy--)
-			{
-				randomize(numbers, size, max_value);
-				heap_sort(numbers, size);
-				assert_sorted(numbers, size);
-			}
-			break;
-		default:
-			cout << "\n Error: invalid sorting algorithm choice.";
-		}
-		cout << "\n Sorted " << reps << " times successfully.";
-	}
-	catch (std::invalid_argument e)
-	{
-		cout << "\n Error: the numbers did not sort successfully.";
-	}
-}
-
 template <class T>
 void print(T numbers[], int size)
 {
 	for (int i = 0; i < size; i++)
 		cout << " " << numbers[i];
-}
-
-/* Throws std::invalid_argument if the given array is not sorted. */
-template<class T>
-void assert_sorted(T numbers[], int size)
-{
-	for (int i = 1; i < size; i++)
-	{
-		if (numbers[i - 1] > numbers[i])
-			throw std::invalid_argument("The numbers are not sorted.");
-	}
 }
 
 template <class T>
@@ -135,15 +51,6 @@ inline void swap_(T& a, T& b)
 	T temp = a;
 	a = b;
 	b = temp;
-}
-
-// fill the array with random numbers
-template <class T>
-void randomize(T numbers[], int size, T max)
-{
-	srand((unsigned)time(0));
-	for (int i = 0; i < size; i++)
-		numbers[i] = 1 + rand() % max;
 }
 
 template <class T>

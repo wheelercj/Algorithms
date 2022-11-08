@@ -7,18 +7,17 @@ using namespace std;
 int main()
 {
 	string choice = "";
-	while (choice != "3")
+	while (choice != "2")
 	{
 		cout << "\n"
-			"\n 1. run algorithms once"
-			"\n 2. run a sorting algorithm many times"
-			"\n 3. exit"
+			"\n main menu"
+			"\n ---------"
+			"\n 1. sorting"
+			"\n 2. exit"
 			"\n> ";
 		cin >> choice;
 		if (choice == "1")
-			manual_test();
-		else if (choice == "2")
-			automatic_test();
+			manual_sorting_test();
 	}
 	cout << endl;
 	system("pause");
