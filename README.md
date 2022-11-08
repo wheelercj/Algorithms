@@ -1,8 +1,9 @@
 # Algorithms
 
-Examples of some basic algorithms implemented in C++ and Java.
+Examples of some basic algorithms implemented in C++ (and some in Java).
 
-## Sorting algorithms
+## sorting algorithms
+
 * Bubble sort
 * Selection sort
 * Insertion sort
@@ -11,12 +12,15 @@ Examples of some basic algorithms implemented in C++ and Java.
 * Merge sort
 * Heap sort
 
-## Searching algorithms
+## searching algorithms
+
 * Linear search
 * Binary search
 
-## See also
+## see also
+
 Here are some of the resources that helped me learn about algorithms:
+
 * [Big-O Cheat Sheet](https://www.bigocheatsheet.com/)
 * [Algorithms — Wikipedia](https://en.wikipedia.org/wiki/Sorting_algorithm)
 * [Data structure visualization](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
