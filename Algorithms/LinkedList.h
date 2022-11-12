@@ -13,7 +13,9 @@ public:
 	LinkedList();
 
 	LinkedList(T data);
-	
+
+	LinkedList(std::initializer_list<T> data_list);
+
 	LinkedList(const LinkedList<T>& other);
 
 	~LinkedList();
@@ -94,6 +96,18 @@ inline LinkedList<T>::LinkedList(T data)
 {
 	this->head = new LinkedListNode(data);
 	this->_size = 1;
+}
+
+template<class T>
+inline LinkedList<T>::LinkedList(std::initializer_list<T> data_list)
+{
+	LinkedListNode<T>** temp = &this->head;
+	for (T element : data_list)
+	{
+		*temp = new LinkedListNode(element);
+		temp = &(*temp)->next;
+	}
+	this->_size = data_list.size();
 }
 
 template<class T>

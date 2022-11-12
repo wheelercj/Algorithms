@@ -202,6 +202,16 @@ namespace tests
 			LinkedList<int> list(8);
 		}
 
+		TEST_METHOD(test_initializer_list_initializion)
+		{
+			LinkedList<int> list({ 1, 2, 3, 4 });
+			Assert::AreEqual(1, list[0]);
+			Assert::AreEqual(2, list[1]);
+			Assert::AreEqual(3, list[2]);
+			Assert::AreEqual(4, list[3]);
+			Assert::AreEqual(size_t(4), list.size());
+		}
+
 		TEST_METHOD(test_single_equality_comparison)
 		{
 			LinkedList<int> list1(8);
