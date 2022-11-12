@@ -152,7 +152,7 @@ inline std::optional<size_t> LinkedListNode<T>::find(T data, size_t index)
 }
 
 template<class T>
-void LinkedListNode<T>::map(T(*f)(T data))
+inline void LinkedListNode<T>::map(T(*f)(T data))
 {
 	this->data = f(this->data);
 	if (this->next != NULL)
@@ -160,7 +160,7 @@ void LinkedListNode<T>::map(T(*f)(T data))
 }
 
 template<class T>
-LinkedListNode<T> LinkedListNode<T>::filter(bool(*f)(T data))
+inline LinkedListNode<T> LinkedListNode<T>::filter(bool(*f)(T data))
 {
 	// TODO
 
@@ -171,7 +171,7 @@ LinkedListNode<T> LinkedListNode<T>::filter(bool(*f)(T data))
 }
 
 template<class T>
-T LinkedListNode<T>::reduce(T(*f)(T data1, T data2))
+inline T LinkedListNode<T>::reduce(T(*f)(T data1, T data2))
 {
 	if (this->next == NULL)
 		return this->data;
@@ -179,7 +179,7 @@ T LinkedListNode<T>::reduce(T(*f)(T data1, T data2))
 }
 
 template<class T>
-bool LinkedListNode<T>::operator==(const LinkedListNode<T>& other)
+inline bool LinkedListNode<T>::operator==(const LinkedListNode<T>& other)
 {
 	if (other.data != this->data
 		|| other.next == NULL && this->next != NULL
@@ -191,7 +191,7 @@ bool LinkedListNode<T>::operator==(const LinkedListNode<T>& other)
 }
 
 template <class T>
-T& LinkedListNode<T>::operator[](size_t index)
+inline T& LinkedListNode<T>::operator[](size_t index)
 {
 	if (index == 0)
 		return this->data;
@@ -201,7 +201,7 @@ T& LinkedListNode<T>::operator[](size_t index)
 }
 
 template <class T>
-const T& LinkedListNode<T>::operator[](size_t index) const
+inline const T& LinkedListNode<T>::operator[](size_t index) const
 {
 	if (index == 0)
 		return this->data;
