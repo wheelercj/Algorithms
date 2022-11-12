@@ -41,6 +41,9 @@ public:
 	// given starting index.
 	std::optional <size_t> find(T data, size_t index = 0);
 
+	// Reverses the entire list.
+	LinkedListNode<T>* reverse(LinkedListNode<T>* previous);
+
 	// Calls a given function on each value in the list.
 	void map(T(*f)(T data));
 
@@ -148,6 +151,19 @@ inline std::optional<size_t> LinkedListNode<T>::find(T data, size_t index)
 	if (this->next == NULL)
 		return {};
 	return this->next->find(data, index + 1);
+}
+
+template<class T>
+inline LinkedListNode<T>* LinkedListNode<T>::reverse(LinkedListNode<T>* previous)
+{
+	if (this->next != NULL)
+	{
+		LinkedListNode<T>* new_head = this->next->reverse(this);
+		this->next = previous;
+		return new_head;
+	}
+	this->next = previous;
+	return this;
 }
 
 template<class T>

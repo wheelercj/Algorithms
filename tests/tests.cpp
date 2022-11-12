@@ -408,6 +408,29 @@ namespace tests
 			Assert::IsFalse(bool(list.find(5)));
 		}
 
+		TEST_METHOD(test_reverse)
+		{
+			LinkedList<int> list;
+			list.reverse();
+		}
+
+		TEST_METHOD(test_append_and_reverse)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			Assert::AreEqual(2, list[1]);
+			Assert::AreEqual(3, list[2]);
+			Assert::AreEqual(4, list[3]);
+			list.reverse();
+			Assert::AreEqual(4, list[0]);
+			Assert::AreEqual(3, list[1]);
+			Assert::AreEqual(2, list[2]);
+			Assert::AreEqual(1, list[3]);
+		}
+
 		TEST_METHOD(test_append_map_and_square_brackets)
 		{
 			LinkedList<int> list;

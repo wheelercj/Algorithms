@@ -63,6 +63,9 @@ public:
 	// Finds a value, returning a 0-based index as if an array.
 	std::optional<size_t> find(T data);
 
+	// Reverses the entire list.
+	void reverse();
+
 	// Calls a given function on each value in the list.
 	void map(T(*f)(T data));
 
@@ -254,6 +257,13 @@ inline std::optional<size_t> LinkedList<T>::find(T data)
 	if (this->head == NULL)
 		return {};
 	return this->head->find(data, 0);
+}
+
+template<class T>
+inline void LinkedList<T>::reverse()
+{
+	if (this->head != NULL)
+		this->head = this->head->reverse(NULL);
 }
 
 template<class T>
