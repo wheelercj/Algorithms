@@ -4,7 +4,6 @@
 // not the delete operator.
 #pragma once
 #include <exception>
-#include <iostream>
 #include <optional>
 
 
@@ -32,7 +31,7 @@ public:
 	void insert(T data, size_t index);
 	
 	// Prints the contents of the list, elements separated by commas and spaces.
-	void print();
+	void print(std::ostringstream& stream);
 
 	// Deletes and returns the contents of a node at a given index > 0. The index is relative.
 	// Throws std::out_of_range if index >= the length of the list.
@@ -113,13 +112,13 @@ inline void LinkedListNode<T>::insert(T data, size_t index)
 }
 
 template<class T>
-inline void LinkedListNode<T>::print()
+inline void LinkedListNode<T>::print(std::ostringstream& stream)
 {
-	std::cout << this->data;
+	stream << this->data;
 	if (this->next != NULL)
 	{
-		std::cout << ", ";
-		this->next->print();
+		stream << ", ";
+		this->next->print(stream);
 	}
 }
 

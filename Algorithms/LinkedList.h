@@ -29,7 +29,7 @@ public:
 	void insert(T data, size_t index);
 
 	// Prints the contents of the list, elements separated by commas and spaces.
-	void print();
+	void print(std::ostringstream& stream);
 
 	// Deletes and returns the contents of a node at a given index.
 	// Throws std::out_of_range if index >= the length of the list.
@@ -145,10 +145,10 @@ inline void LinkedList<T>::insert(T data, size_t index)
 }
 
 template<class T>
-inline void LinkedList<T>::print()
+inline void LinkedList<T>::print(std::ostringstream& stream)
 {
 	if (this->head != NULL)
-		this->head->print();
+		this->head->print(stream);
 }
 
 template<class T>
