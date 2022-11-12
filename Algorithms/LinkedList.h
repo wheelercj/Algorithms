@@ -66,6 +66,9 @@ public:
 	// Reverses the entire list.
 	void reverse();
 
+	// Swaps two linked lists.
+	void swap(LinkedList<T>& other);
+
 	// Calls a given function on each value in the list.
 	void map(T(*f)(T data));
 
@@ -264,6 +267,17 @@ inline void LinkedList<T>::reverse()
 {
 	if (this->head != NULL)
 		this->head = this->head->reverse(NULL);
+}
+
+template<class T>
+inline void LinkedList<T>::swap(LinkedList<T>& other)
+{
+	LinkedListNode<T>* temp_head = this->head;
+	this->head = other.head;
+	other.head = temp_head;
+	size_t temp_size = this->_size;
+	this->_size = other._size;
+	other._size = temp_size;
 }
 
 template<class T>

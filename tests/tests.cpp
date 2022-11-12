@@ -431,6 +431,19 @@ namespace tests
 			Assert::AreEqual(1, list[3]);
 		}
 
+		TEST_METHOD(test_swap)
+		{
+			LinkedList<int> list1({ 1, 2, 3, 4 });
+			LinkedList<int> list2({ 5, 6, 7, 8, 9, 10 });
+			list1.swap(list2);
+			Assert::AreEqual(5, list1[0]);
+			Assert::AreEqual(6, list1[1]);
+			Assert::AreEqual(1, list2[0]);
+			Assert::AreEqual(2, list2[1]);
+			Assert::AreEqual(size_t(6), list1.size());
+			Assert::AreEqual(size_t(4), list2.size());
+		}
+
 		TEST_METHOD(test_append_map_and_square_brackets)
 		{
 			LinkedList<int> list;
