@@ -220,6 +220,13 @@ namespace tests
 			Assert::IsTrue(list1 == list2);
 		}
 
+		TEST_METHOD(test_single_equality_comparison_on_empty_lists)
+		{
+			LinkedList<int> list1;
+			LinkedList<int> list2;
+			Assert::IsTrue(list1 == list2);
+		}
+
 		TEST_METHOD(test_inequality_comparison)
 		{
 			LinkedList<int> list1(8);

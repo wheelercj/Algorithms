@@ -409,6 +409,8 @@ inline bool LinkedList<T>::operator==(const LinkedList<T>& other)
 	if (other.head == NULL && this->head != NULL
 		|| other.head != NULL && this->head == NULL)
 		return false;
+	if (other.head == NULL && this->head == NULL)
+		return true;
 	return *other.head == *this->head;
 }
 
