@@ -353,7 +353,17 @@ namespace tests
 			Assert::AreEqual(size_t(4), list.length());
 		}
 
-		TEST_METHOD(test_append_clear_and_size)
+		TEST_METHOD(test_empty_and_append)
+		{
+			LinkedList<int> list;
+			Assert::AreEqual(true, list.empty());
+			list.append(1);
+			Assert::AreEqual(false, list.empty());
+			list.append(2);
+			Assert::AreEqual(false, list.empty());
+		}
+
+		TEST_METHOD(test_clear_size_and_empty)
 		{
 			LinkedList<int> list;
 			list.append(1);
@@ -365,6 +375,7 @@ namespace tests
 			Assert::AreEqual(size_t(0), list.size());
 			list.clear();
 			Assert::AreEqual(size_t(0), list.size());
+			Assert::AreEqual(true, list.empty());
 		}
 
 		/*TEST_METHOD(test_append_and_iterator)

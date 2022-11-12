@@ -46,6 +46,8 @@ public:
 	// An alias for the size function.
 	size_t length() const;
 
+	bool empty() const;
+
 	// TODO: create iterator
 
 	/*LinkedList<T>::iterator begin();
@@ -213,6 +215,12 @@ template<class T>
 inline size_t LinkedList<T>::length() const
 {
 	return this->size();
+}
+
+template<class T>
+inline bool LinkedList<T>::empty() const
+{
+	return this->_size == 0;
 }
 
 template<class T>
