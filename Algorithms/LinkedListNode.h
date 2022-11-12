@@ -57,9 +57,6 @@ public:
 	// Calls a given function on each value in the list.
 	void map(T(*f)(T data));
 
-	// Creates a new list with only the nodes with values that make a given function return true.
-	LinkedListNode<T> filter(bool(*f)(T data));
-
 	// Returns the combination of all values in the list,
 	// combined using a given function.
 	T reduce(T(*f)(T data1, T data2));
@@ -220,17 +217,6 @@ inline void LinkedListNode<T>::map(T(*f)(T data))
 	this->data = f(this->data);
 	if (this->next != NULL)
 		this->next->map(f);
-}
-
-template<class T>
-inline LinkedListNode<T> LinkedListNode<T>::filter(bool(*f)(T data))
-{
-	// TODO
-
-	/*while (this->next != NULL && !f(this->next->data))
-		this->remove(1);
-	if (this->next != NULL)
-		this->next->filter(f);*/
 }
 
 template<class T>

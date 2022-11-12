@@ -531,15 +531,15 @@ namespace tests
 
 		TEST_METHOD(test_append_filter_and_size)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
-			list.append(5);
-			Assert::AreEqual(size_t(5), list.size());
-			list.filter(is_even);
-			Assert::AreEqual(size_t(2), list.size());
+			LinkedList<int> list1;
+			list1.append(1);
+			list1.append(2);
+			list1.append(3);
+			list1.append(4);
+			list1.append(5);
+			LinkedList<int> list2 = list1.filter(is_even);
+			Assert::AreEqual(4, list2[1]);
+			Assert::AreEqual(size_t(2), list2.size());
 		}
 
 		TEST_METHOD(test_append_and_reduce)

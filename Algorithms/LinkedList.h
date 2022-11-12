@@ -378,14 +378,18 @@ inline void LinkedList<T>::map(T(*f)(T data))
 template<class T>
 inline LinkedList<T> LinkedList<T>::filter(bool(*f)(T data))
 {
-	LinkedList<T> new_list;
-	// TODO
-
-	/*while (this->head != NULL && !f(this->head->data))
-		this->remove(0);
-	if (this->head != NULL)
-		this->head->filter(f);*/
-	return new_list;
+	LinkedList<T> other;
+	LinkedListNode<T>** other_ptr = &other.head;
+	for (LinkedListNode<T>* ptr = this->head; ptr != NULL; ptr = ptr->next)
+	{
+		if (f(ptr->data))
+		{
+			*other_ptr = new LinkedListNode(ptr->data);
+			other_ptr = &(*other_ptr)->next;
+			other._size += 1;
+		}
+	}
+	return other;
 }
 
 template<class T>
