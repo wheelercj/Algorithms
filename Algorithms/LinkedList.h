@@ -39,6 +39,10 @@ public:
 	// Throws std::out_of_range if index >= the length of the list.
 	void insert(T data, size_t index);
 
+	// Adds values starting at any index in the list.
+	// Throws std::out_of_range if index >= the length of the list.
+	void insert_multiple(std::initializer_list<T> data_list, size_t index);
+
 	// Prints the contents of the list, elements separated by commas and spaces.
 	void print(std::ostream& stream);
 
@@ -218,6 +222,28 @@ inline void LinkedList<T>::insert(T data, size_t index)
 		this->head->next = temp;
 	}
 	this->_size += 1;
+}
+
+template<class T>
+inline void LinkedList<T>::insert_multiple(std::initializer_list<T> data_list, size_t index)
+{
+	if (index > 0)
+	{
+		if (this->head == NULL)
+			throw std::out_of_range("The insertion index must be < the length of the list.");
+		this->head->insert_multiple(data_list, index);
+	}
+	else
+	{
+		LinkedListNode<T>* temp = NULL;
+		for (auto it = std::rbegin(data_list); it != std::rend(data_list); it++)
+		{
+			temp = this->head;
+			this->head = new LinkedListNode<T>(*it);
+			this->head->next = temp;
+		}
+	}
+	this->_size += data_list.size();
 }
 
 template<class T>

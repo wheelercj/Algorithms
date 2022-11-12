@@ -339,6 +339,17 @@ namespace tests
 			Assert::AreEqual(4, list[4]);
 		}
 
+		TEST_METHOD(test_insert_multiple)
+		{
+			LinkedList<int> list({ 1, 2, 3, 4 });
+			list.insert_multiple({ 5, 6 }, 2);
+			Assert::AreEqual(size_t(6), list.size());
+			Assert::AreEqual(2, list[1]);
+			Assert::AreEqual(5, list[2]);
+			Assert::AreEqual(6, list[3]);
+			Assert::AreEqual(3, list[4]);
+		}
+
 		TEST_METHOD(test_print)
 		{
 			LinkedList<int> list;
