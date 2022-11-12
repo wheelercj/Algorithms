@@ -137,25 +137,25 @@ inline LinkedList<T>::~LinkedList()
 
 
 template<class T>
-LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other)
+inline LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other)
 {
 	// TODO
 }
 
 template<class T>
-LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& other)
+inline LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& other)
 {
 	// TODO
 }
 
 template<class T>
-LinkedList<T>& LinkedList<T>::operator=(std::initializer_list<T> data_list)
+inline LinkedList<T>& LinkedList<T>::operator=(std::initializer_list<T> data_list)
 {
 	// TODO
 }
 
 template <class T>
-void LinkedList<T>::append(T data)
+inline void LinkedList<T>::append(T data)
 {
 	if (this->head != NULL)
 		this->head->append(data);
@@ -165,7 +165,7 @@ void LinkedList<T>::append(T data)
 }
 
 template <class T>
-void LinkedList<T>::extend(const LinkedList<T>& other)
+inline void LinkedList<T>::extend(const LinkedList<T>& other)
 {
 	// TODO
 	this->_size += other.size();
