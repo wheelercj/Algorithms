@@ -157,15 +157,12 @@ inline T LinkedListNode<T>::remove(size_t index)
 		throw std::out_of_range("Index out of bounds.");
 	if (index > 1)
 		return this->next->remove(index - 1);
-	else
-	{
-		T temp_data = this->next->data;
-		LinkedListNode* temp = this->next;
-		this->next = this->next->next;
-		delete temp;
-		temp = NULL;
-		return temp_data;
-	}
+	T temp_data = this->next->data;
+	LinkedListNode* temp = this->next;
+	this->next = this->next->next;
+	delete temp;
+	temp = NULL;
+	return temp_data;
 }
 
 template<class T>
