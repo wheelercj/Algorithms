@@ -52,6 +52,7 @@ public:
 	// An alias for the size function.
 	size_t length() const;
 
+	// Returns true if the list is empty, false otherwise.
 	bool empty() const;
 
 	// TODO: create iterator
@@ -75,8 +76,7 @@ public:
 	// Creates a new list with only the nodes with values that make a given function return true.
 	LinkedList<T> filter(bool(*f)(T data));
 
-	// Returns the combination of all values in the list,
-	// combined using a given function.
+	// Returns the combination of all values in the list, combined using a given function.
 	T reduce(T(*f)(T data1, T data2));
 
 	// Determines whether two linked lists have the same data and length.
