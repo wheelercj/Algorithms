@@ -277,13 +277,9 @@ namespace tests
 			Assert::IsTrue(list1 == list2);
 		}
 
-		TEST_METHOD(test_append_and_square_brackets)
+		TEST_METHOD(test_square_brackets)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
+			LinkedList<int> list({ 1, 2, 3, 4 });
 			Assert::AreEqual(2, list[1]);
 			Assert::AreEqual(4, list[3]);
 			list[3] = 5;
@@ -293,16 +289,8 @@ namespace tests
 
 		TEST_METHOD(test_extend)
 		{
-			LinkedList<int> list1;
-			list1.append(1);
-			list1.append(2);
-			list1.append(3);
-			list1.append(4);
-			LinkedList<int> list2;
-			list2.append(5);
-			list2.append(6);
-			list2.append(7);
-			list2.append(8);
+			LinkedList<int> list1 = { 1, 2, 3, 4 };
+			LinkedList<int> list2 = { 5, 6, 7, 8 };
 			list1.extend(list2);
 			Assert::AreEqual(8, list1[7]);
 			Assert::AreEqual(size_t(8), list1.size());
@@ -311,11 +299,7 @@ namespace tests
 
 		TEST_METHOD(test_extend_with_inializer_list)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
+			LinkedList<int> list = { 1, 2, 3, 4 };
 			list.extend({ 5, 6, 7, 8 });
 			Assert::AreEqual(8, list[7]);
 			Assert::AreEqual(size_t(8), list.size());
@@ -349,13 +333,9 @@ namespace tests
 			Assert::ExpectException<std::out_of_range>(f);
 		}
 
-		TEST_METHOD(test_append_and_insert)
+		TEST_METHOD(test_insert)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
+			LinkedList<int> list = { 1, 2, 3, 4 };
 			Assert::AreEqual(2, list[1]);
 			Assert::AreEqual(3, list[2]);
 			Assert::AreEqual(4, list[3]);
@@ -402,13 +382,9 @@ namespace tests
 			Assert::AreEqual(size_t(1), list.size());
 		}
 
-		TEST_METHOD(test_append_and_remove)
+		TEST_METHOD(test_remove)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
+			LinkedList<int> list = { 1, 2, 3, 4 };
 			Assert::AreEqual(3, list[2]);
 			Assert::AreEqual(size_t(4), list.size());
 			Assert::AreEqual(3, list.remove(2));
@@ -441,13 +417,9 @@ namespace tests
 			Assert::AreEqual(size_t(1), list.size());
 		}
 
-		TEST_METHOD(test_append_and_size)
+		TEST_METHOD(test_size)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
+			LinkedList<int> list = { 1, 2, 3, 4 };
 			Assert::AreEqual(size_t(4), list.size());
 			Assert::AreEqual(size_t(4), list.length());
 		}
@@ -464,11 +436,7 @@ namespace tests
 
 		TEST_METHOD(test_clear_size_and_empty)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
+			LinkedList<int> list = { 1, 2, 3, 4 };
 			Assert::AreEqual(size_t(4), list.size());
 			list.clear();
 			Assert::AreEqual(size_t(0), list.size());
@@ -478,48 +446,23 @@ namespace tests
 		}
 
 		/*TEST_METHOD(test_append_and_iterator)
+		TEST_METHOD(test_find)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
-			LinkedList<int>::iterator it;
-			for (it = list.begin(); it != list.end(); it++)
-			{
-				*it += 3;
-			}
-			Assert::AreEqual(4, list[0]);
-			Assert::AreEqual(5, list[1]);
-			Assert::AreEqual(6, list[2]);
-			Assert::AreEqual(7, list[3]);
-		}*/
-
-		TEST_METHOD(test_append_and_find)
-		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
+			LinkedList<int> list = { 1, 2, 3, 4 };
 			Assert::AreEqual(size_t(2), *list.find(3));
 			Assert::AreEqual(size_t(0), *list.find(1));
 			Assert::IsFalse(bool(list.find(5)));
 		}
 
-		TEST_METHOD(test_reverse)
+		TEST_METHOD(test_reverse_empty_list)
 		{
 			LinkedList<int> list;
 			list.reverse();
 		}
 
-		TEST_METHOD(test_append_and_reverse)
+		TEST_METHOD(test_reverse)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
+			LinkedList<int> list = { 1, 2, 3, 4 };
 			Assert::AreEqual(2, list[1]);
 			Assert::AreEqual(3, list[2]);
 			Assert::AreEqual(4, list[3]);
@@ -543,39 +486,25 @@ namespace tests
 			Assert::AreEqual(size_t(4), list2.size());
 		}
 
-		TEST_METHOD(test_append_map_and_square_brackets)
+		TEST_METHOD(test_map_and_square_brackets)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
+			LinkedList<int> list = { 1, 2, 3, 4 };
 			list.map(square);
 			Assert::AreEqual(4, list[1]);
 			Assert::AreEqual(16, list[3]);
 		}
 
-		TEST_METHOD(test_append_filter_and_size)
+		TEST_METHOD(test_filter_and_size)
 		{
-			LinkedList<int> list1;
-			list1.append(1);
-			list1.append(2);
-			list1.append(3);
-			list1.append(4);
-			list1.append(5);
+			LinkedList<int> list1 = { 1, 2, 3, 4, 5 };
 			LinkedList<int> list2 = list1.filter(is_even);
 			Assert::AreEqual(4, list2[1]);
 			Assert::AreEqual(size_t(2), list2.size());
 		}
 
-		TEST_METHOD(test_append_and_reduce)
+		TEST_METHOD(test_reduce)
 		{
-			LinkedList<int> list;
-			list.append(1);
-			list.append(2);
-			list.append(3);
-			list.append(4);
-			list.append(5);
+			LinkedList<int> list = { 1, 2, 3, 4, 5 };
 			Assert::AreEqual(15, list.reduce(add));
 			Assert::AreEqual(size_t(5), list.size());
 		}
