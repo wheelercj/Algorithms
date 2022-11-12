@@ -1,9 +1,26 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include "../Algorithms/LinkedList.h"
+#include "../Algorithms/LinkedListNode.h"
 #include "../Algorithms/sorting.h"
 #include "../Algorithms/sorting.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+int square(int number)
+{
+	return number * number;
+}
+
+bool is_even(int number)
+{
+	return number % 2 == 0;
+}
+
+int add(int a, int b)
+{
+	return a + b;
+}
 
 namespace tests
 {
@@ -38,7 +55,7 @@ namespace tests
 				);
 		}
 
-		// Raises std::logic_error if the array is not sorted.
+		// Throws std::logic_error if the array is not sorted.
 		// Does nothing otherwise.
 		template<class T>
 		void require_sorted(T arr[], const int size)
@@ -162,5 +179,243 @@ namespace tests
 				assert_sorted(numbers, size);
 			}
 		}
+
+	};
+
+	TEST_CLASS(linked_list)
+	{
+	public:
+
+		TEST_METHOD(test_default_constructor)
+		{
+			LinkedList<int> list;
+		}
+
+		TEST_METHOD(test_size_of_empty_list)
+		{
+			LinkedList<int> list;
+			Assert::AreEqual(size_t(0), list.size());
+		}
+
+		TEST_METHOD(test_initializion)
+		{
+			LinkedList<int> list(8);
+		}
+
+		TEST_METHOD(test_single_equality_comparison)
+		{
+			LinkedList<int> list1(8);
+			LinkedList<int> list2(8);
+			Assert::IsTrue(list1 == list2);
+		}
+
+		TEST_METHOD(test_inequality_comparison)
+		{
+			LinkedList<int> list1(8);
+			LinkedList<int> list2(8);
+			list2.append(9);
+			Assert::IsTrue(list1 != list2);
+		}
+
+		TEST_METHOD(test_single_equality_comparison_with_strings)
+		{
+			LinkedList<std::string> list1("hello");
+			LinkedList<std::string> list2("hello");
+			Assert::IsTrue(list1 == list2);
+		}
+
+		TEST_METHOD(test_multi_equality_comparison)
+		{
+			LinkedList<int> list1(8);
+			list1.append(9);
+			LinkedList<int> list2(8);
+			list2.append(9);
+			Assert::IsTrue(list1 == list2);
+		}
+
+		TEST_METHOD(test_copy_constructor_and_equality_comparison)
+		{
+			LinkedList<int> list1(8);
+			LinkedList<int> list2(list1);
+			Assert::IsTrue(list1 == list2);
+		}
+
+		TEST_METHOD(test_append_and_square_brackets)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			Assert::AreEqual(2, list[1]);
+			Assert::AreEqual(4, list[3]);
+			list[3] = 5;
+			Assert::AreEqual(2, list[1]);
+			Assert::AreEqual(5, list[3]);
+		}
+
+		TEST_METHOD(test_square_brackets_out_of_range)
+		{
+			LinkedList<int> list(2);
+			auto f = [&] { list[83]; };
+			Assert::ExpectException<std::out_of_range>(f);
+		}
+
+		TEST_METHOD(test_square_brackets_negative_index)
+		{
+			LinkedList<int> list(2);
+			auto f = [&] { list[-10]; };
+			Assert::ExpectException<std::out_of_range>(f);
+		}
+		
+		TEST_METHOD(test_insert_out_of_range)
+		{
+			LinkedList<std::string> list;
+			auto f = [&] { list.insert("hi", 3); };
+			Assert::ExpectException<std::out_of_range>(f);
+		}
+
+		TEST_METHOD(test_insert_at_negative_index)
+		{
+			LinkedList<std::string> list;
+			auto f = [&] { list.insert("hi", -3); };
+			Assert::ExpectException<std::out_of_range>(f);
+		}
+
+		TEST_METHOD(test_append_and_insert)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			Assert::AreEqual(2, list[1]);
+			Assert::AreEqual(3, list[2]);
+			Assert::AreEqual(4, list[3]);
+			list.insert(10, 2);
+			Assert::AreEqual(2, list[1]);
+			Assert::AreEqual(10, list[2]);
+			Assert::AreEqual(4, list[4]);
+		}
+
+		TEST_METHOD(test_remove_out_of_range)
+		{
+			LinkedList<std::string> list;
+			auto f = [&] { list.remove(3); };
+			Assert::ExpectException<std::out_of_range>(f);
+		}
+
+		TEST_METHOD(test_remove_at_negative_index)
+		{
+			LinkedList<std::string> list;
+			auto f = [&] { list.remove(-3); };
+			Assert::ExpectException<std::out_of_range>(f);
+		}
+
+		TEST_METHOD(test_append_and_remove)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			Assert::AreEqual(3, list[2]);
+			Assert::AreEqual(3, list.remove(2));
+			Assert::AreEqual(4, list[2]);
+			Assert::AreEqual(2, list[1]);
+		}
+
+		TEST_METHOD(test_append_and_size)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			Assert::AreEqual(size_t(4), list.size());
+			Assert::AreEqual(size_t(4), list.length());
+		}
+
+		TEST_METHOD(test_append_clear_and_size)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			Assert::AreEqual(size_t(4), list.size());
+			list.clear();
+			Assert::AreEqual(size_t(0), list.size());
+			list.clear();
+			Assert::AreEqual(size_t(0), list.size());
+		}
+
+		/*TEST_METHOD(test_append_and_iterator)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			LinkedList<int>::iterator it;
+			for (it = list.begin(); it != list.end(); it++)
+			{
+				*it += 3;
+			}
+			Assert::AreEqual(4, list[0]);
+			Assert::AreEqual(5, list[1]);
+			Assert::AreEqual(6, list[2]);
+			Assert::AreEqual(7, list[3]);
+		}*/
+
+		TEST_METHOD(test_append_and_find)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			Assert::AreEqual(size_t(2), *list.find(3));
+			Assert::AreEqual(size_t(0), *list.find(1));
+			Assert::IsFalse(bool(list.find(5)));
+		}
+
+		TEST_METHOD(test_append_map_and_square_brackets)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			list.map(square);
+			Assert::AreEqual(4, list[1]);
+			Assert::AreEqual(16, list[3]);
+		}
+
+		TEST_METHOD(test_append_filter_and_size)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			list.append(5);
+			Assert::AreEqual(size_t(5), list.size());
+			list.filter(is_even);
+			Assert::AreEqual(size_t(2), list.size());
+		}
+
+		TEST_METHOD(test_append_and_reduce)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			list.append(5);
+			Assert::AreEqual(15, list.reduce(add));
+			Assert::AreEqual(size_t(5), list.size());
+		}
+
 	};
 }
