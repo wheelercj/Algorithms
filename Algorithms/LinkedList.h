@@ -32,6 +32,9 @@ public:
 	// Combines two lists, adding each value in the given list to the end of this list.
 	void extend(const LinkedList<T>& other);
 
+	// Combines two lists, adding each value in the given initializer list to the end of this linked list.
+	void extend(std::initializer_list<T> data_list);
+
 	// Adds a value at any index in the list.
 	// Throws std::out_of_range if index >= the length of the list.
 	void insert(T data, size_t index);
@@ -138,7 +141,6 @@ template<class T>
 inline LinkedList<T>::~LinkedList()
 {
 	this->clear();
-	this->_size = 0;
 }
 
 
@@ -173,8 +175,31 @@ inline void LinkedList<T>::append(T data)
 template <class T>
 inline void LinkedList<T>::extend(const LinkedList<T>& other)
 {
-	// TODO
+	LinkedListNode<T>** ptr = &this->head;
+	while (*ptr != NULL)
+		ptr = &(*ptr)->next;
+	LinkedListNode<T>* other_ptr = other.head;
+	while (other_ptr != NULL)
+	{
+		*ptr = new LinkedListNode(other_ptr->data);
+		ptr = &(*ptr)->next;
+		other_ptr = other_ptr->next;
+	}
 	this->_size += other.size();
+}
+
+template<class T>
+inline void LinkedList<T>::extend(std::initializer_list<T> data_list)
+{
+	LinkedListNode<T>** ptr = &this->head;
+	while (*ptr != NULL)
+		ptr = &(*ptr)->next;
+	for (T element : data_list)
+	{
+		*ptr = new LinkedListNode(element);
+		ptr = &(*ptr)->next;
+	}
+	this->_size += data_list.size();
 }
 
 template<class T>

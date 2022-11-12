@@ -265,6 +265,36 @@ namespace tests
 			Assert::AreEqual(5, list[3]);
 		}
 
+		TEST_METHOD(test_extend)
+		{
+			LinkedList<int> list1;
+			list1.append(1);
+			list1.append(2);
+			list1.append(3);
+			list1.append(4);
+			LinkedList<int> list2;
+			list2.append(5);
+			list2.append(6);
+			list2.append(7);
+			list2.append(8);
+			list1.extend(list2);
+			Assert::AreEqual(8, list1[7]);
+			Assert::AreEqual(size_t(8), list1.size());
+			Assert::AreEqual(size_t(4), list2.size());
+		}
+
+		TEST_METHOD(test_extend_with_inializer_list)
+		{
+			LinkedList<int> list;
+			list.append(1);
+			list.append(2);
+			list.append(3);
+			list.append(4);
+			list.extend({ 5, 6, 7, 8 });
+			Assert::AreEqual(8, list[7]);
+			Assert::AreEqual(size_t(8), list.size());
+		}
+
 		TEST_METHOD(test_square_brackets_out_of_range)
 		{
 			LinkedList<int> list(2);
