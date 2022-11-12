@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include <iostream>
 #include "../Algorithms/LinkedList.h"
 #include "../Algorithms/LinkedListNode.h"
 #include "../Algorithms/sorting.h"
@@ -306,6 +307,12 @@ namespace tests
 			Assert::AreEqual(2, list[1]);
 			Assert::AreEqual(10, list[2]);
 			Assert::AreEqual(4, list[4]);
+		}
+
+		TEST_METHOD(test_print)
+		{
+			LinkedList<int> list(485);
+			list.print(std::cout);
 		}
 
 		TEST_METHOD(test_remove_out_of_range)
