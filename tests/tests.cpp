@@ -311,7 +311,11 @@ namespace tests
 
 		TEST_METHOD(test_print)
 		{
-			LinkedList<int> list(485);
+			LinkedList<int> list;
+			list.print(std::cout);
+			list.append(1);
+			list.print(std::cout);
+			list.append(1);
 			list.print(std::cout);
 		}
 
