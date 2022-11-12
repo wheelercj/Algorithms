@@ -148,7 +148,11 @@ template<class T>
 inline void LinkedList<T>::insert(T data, size_t index)
 {
 	if (index > 0)
+	{
+		if (this->head == NULL)
+			throw std::out_of_range("The insertion index must be < the length of the list.");
 		this->head->insert(data, index);
+	}
 	else
 	{
 		LinkedListNode<T>* temp = this->head;
