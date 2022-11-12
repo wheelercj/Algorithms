@@ -35,18 +35,18 @@ public:
 	// Combines two lists, adding each value in the given initializer list to the end of this linked list.
 	void extend(std::initializer_list<T> data_list);
 
-	// Adds a value at any index in the list.
+	// Adds a node with the given value at any index in the list.
 	// Throws std::out_of_range if index >= the length of the list.
 	void insert(T data, size_t index);
 
-	// Adds values starting at any index in the list.
+	// Adds nodes with the given values starting at any index in the list.
 	// Throws std::out_of_range if index >= the length of the list.
 	void insert_multiple(std::initializer_list<T> data_list, size_t index);
 
 	// Prints the contents of the list, elements separated by commas and spaces.
 	void print(std::ostream& stream);
 
-	// Deletes and returns the contents of a node at a given index.
+	// Deletes a node at a given index and returns its contents.
 	// Throws std::out_of_range if index >= the length of the list.
 	T remove(size_t index);
 
