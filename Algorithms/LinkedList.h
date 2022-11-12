@@ -259,18 +259,41 @@ inline T LinkedList<T>::remove(size_t index)
 	if (this->head == NULL)
 		throw std::out_of_range("The list is already empty.");
 	if (index > 0)
-		return this->head->remove(index);
-	else
 	{
-		T temp_data = this->head->data;
-		LinkedListNode<T>* temp = this->head;
-		this->head = this->head->next;
-		delete temp;
-		temp = NULL;
-		return temp_data;
+		T temp = this->head->remove(index);
+		this->_size -= 1;
+		return temp;
 	}
 	this->_size -= 1;
+	T temp_data = this->head->data;
+	LinkedListNode<T>* temp = this->head;
+	this->head = this->head->next;
+	delete temp;
+	temp = NULL;
+	return temp_data;
 }
+
+//template<class T>
+//inline T LinkedList<T>::remove(size_t index1, size_t index2)
+//{
+//	if (this->head == NULL)
+//		throw std::out_of_range("The list is already empty.");
+//	this->_size -= index2 - index1 + 1;
+//	if (index1 > index2)
+//	{
+//		size_t temp = index1;
+//		index1 = index2;
+//		index2 = temp;
+//	}
+//	if (index > 0)
+//		return this->head->remove(index1, index2);
+//	T temp_data = this->head->data;
+//	LinkedListNode<T>* temp = this->head;
+//	this->head = this->head->next;
+//	delete temp;
+//	temp = NULL;
+//	return temp_data;
+//}
 
 template<class T>
 inline void LinkedList<T>::clear()

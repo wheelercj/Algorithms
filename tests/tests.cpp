@@ -365,13 +365,15 @@ namespace tests
 			LinkedList<std::string> list;
 			auto f = [&] { list.remove(3); };
 			Assert::ExpectException<std::out_of_range>(f);
+			Assert::AreEqual(size_t(0), list.size());
 		}
 
 		TEST_METHOD(test_remove_at_negative_index)
 		{
-			LinkedList<std::string> list;
+			LinkedList<int> list(1);
 			auto f = [&] { list.remove(-3); };
 			Assert::ExpectException<std::out_of_range>(f);
+			Assert::AreEqual(size_t(1), list.size());
 		}
 
 		TEST_METHOD(test_append_and_remove)
@@ -382,9 +384,11 @@ namespace tests
 			list.append(3);
 			list.append(4);
 			Assert::AreEqual(3, list[2]);
+			Assert::AreEqual(size_t(4), list.size());
 			Assert::AreEqual(3, list.remove(2));
 			Assert::AreEqual(4, list[2]);
 			Assert::AreEqual(2, list[1]);
+			Assert::AreEqual(size_t(3), list.size());
 		}
 
 		TEST_METHOD(test_append_and_size)
