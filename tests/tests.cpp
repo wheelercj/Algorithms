@@ -201,6 +201,7 @@ namespace tests
 		TEST_METHOD(test_initializion)
 		{
 			LinkedList<int> list(8);
+			Assert::AreEqual(size_t(1), list.size());
 		}
 
 		TEST_METHOD(test_initializer_list_initializion)
@@ -275,6 +276,7 @@ namespace tests
 			LinkedList<int> list1(8);
 			LinkedList<int> list2(list1);
 			Assert::IsTrue(list1 == list2);
+			Assert::AreEqual(size_t(1), list2.size());
 		}
 
 		TEST_METHOD(test_square_brackets)
@@ -343,6 +345,7 @@ namespace tests
 			Assert::AreEqual(2, list[1]);
 			Assert::AreEqual(10, list[2]);
 			Assert::AreEqual(4, list[4]);
+			Assert::AreEqual(size_t(5), list.size());
 		}
 
 		TEST_METHOD(test_insert_multiple)
