@@ -56,12 +56,12 @@ public:
 
 	// Returns a reference to an element of the list as if an array but with O(n) complexity.
 	// The index is relative.
-	// Throws std::out_of_range if the index >= the length of the list.
+	// Throws std::out_of_range if the index is out of bounds.
 	T& operator[](size_t index);
 
 	// Returns a reference to an element of the list as if an array but with O(n) complexity.
 	// The index is relative.
-	// Throws std::out_of_range if the index >= the length of the list.
+	// Throws std::out_of_range if the index is out of bounds.
 	const T& operator[](size_t index) const;
 
 };
