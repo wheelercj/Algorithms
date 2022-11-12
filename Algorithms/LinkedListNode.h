@@ -41,6 +41,12 @@ public:
 	// Throws std::out_of_range if index >= the length of the list.
 	T remove(size_t index);
 
+	// Deletes nodes inclusively between two given indexes.
+	// The indexes are relative.
+	// Returns the number of nodes removed.
+	// Throws std::out_of_range index1 >= the length of the list.
+	size_t remove(size_t index1, size_t index2);
+
 	// Finds a value, returning its relative index based on the
 	// given starting index.
 	std::optional <size_t> find(T data, size_t index = 0);
@@ -163,6 +169,26 @@ inline T LinkedListNode<T>::remove(size_t index)
 	delete temp;
 	temp = NULL;
 	return temp_data;
+}
+
+template<class T>
+inline size_t LinkedListNode<T>::remove(size_t index1, size_t index2)
+{
+	if (this->next == NULL)
+		throw std::out_of_range("Index out of bounds.");
+	if (index1 > 1)
+		return this->next->remove(index1 - 1, index2 - 1);
+	LinkedListNode<T>* temp = NULL;
+	for (size_t i = 0; i <= index2 - index1; i++)
+	{
+		if (this->next == NULL)
+			return i;
+		temp = this->next;
+		this->next = this->next->next;
+		delete temp;
+		temp = NULL;
+	}
+	return index2 - index1 + 1;
 }
 
 template<class T>

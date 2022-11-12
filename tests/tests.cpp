@@ -391,6 +391,30 @@ namespace tests
 			Assert::AreEqual(size_t(3), list.size());
 		}
 
+		TEST_METHOD(test_remove_multiple_on_empty_list)
+		{
+			LinkedList<int> list;
+			auto f = [&] { list.remove(1, 2); };
+			Assert::ExpectException<std::out_of_range>(f);
+			Assert::AreEqual(size_t(0), list.size());
+		}
+
+		TEST_METHOD(test_remove_multiple)
+		{
+			LinkedList<int> list({ 1, 2, 3, 4 });
+			list.remove(1, 2);
+			Assert::AreEqual(4, list[1]);
+			Assert::AreEqual(size_t(2), list.size());
+		}
+
+		TEST_METHOD(test_remove_multiple_beyond_end_of_list)
+		{
+			LinkedList<int> list({ 1, 2, 3, 4 });
+			list.remove(1, 10);
+			Assert::AreEqual(1, list[0]);
+			Assert::AreEqual(size_t(1), list.size());
+		}
+
 		TEST_METHOD(test_append_and_size)
 		{
 			LinkedList<int> list;

@@ -50,6 +50,10 @@ public:
 	// Throws std::out_of_range if index >= the length of the list.
 	T remove(size_t index);
 
+	// Deletes nodes inclusively between two given indexes.
+	// Throws std::out_of_range index1 >= the length of the list.
+	void remove(size_t index1, size_t index2);
+
 	// Deletes all the nodes in the list.
 	void clear();
 
@@ -273,27 +277,37 @@ inline T LinkedList<T>::remove(size_t index)
 	return temp_data;
 }
 
-//template<class T>
-//inline T LinkedList<T>::remove(size_t index1, size_t index2)
-//{
-//	if (this->head == NULL)
-//		throw std::out_of_range("The list is already empty.");
-//	this->_size -= index2 - index1 + 1;
-//	if (index1 > index2)
-//	{
-//		size_t temp = index1;
-//		index1 = index2;
-//		index2 = temp;
-//	}
-//	if (index > 0)
-//		return this->head->remove(index1, index2);
-//	T temp_data = this->head->data;
-//	LinkedListNode<T>* temp = this->head;
-//	this->head = this->head->next;
-//	delete temp;
-//	temp = NULL;
-//	return temp_data;
-//}
+template<class T>
+inline void LinkedList<T>::remove(size_t index1, size_t index2)
+{
+	if (this->head == NULL)
+		throw std::out_of_range("The list is already empty.");
+	if (index1 > index2)
+	{
+		size_t temp = index1;
+		index1 = index2;
+		index2 = temp;
+	}
+	if (index1 > 0)
+	{
+		this->_size -= this->head->remove(index1, index2);
+		return;
+	}
+	LinkedListNode<T>* temp = NULL;
+	for (size_t i = 0; i <= index2 - index1; i++)
+	{
+		if (this->head == NULL)
+		{
+			this->_size -= i;
+			return;
+		}
+		temp = this->head;
+		this->head = this->head->next;
+		delete temp;
+		temp = NULL;
+	}
+	this->_size -= index2 - index1 + 1;
+}
 
 template<class T>
 inline void LinkedList<T>::clear()
