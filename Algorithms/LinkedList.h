@@ -22,8 +22,6 @@ public:
 
 	LinkedList<T>& operator=(const LinkedList<T>& other);
 
-	LinkedList<T>& operator=(LinkedList<T>&& other);
-
 	LinkedList<T>& operator=(std::initializer_list<T> data_list);
 
 	// Adds a value to the end of the list.
@@ -151,23 +149,28 @@ inline LinkedList<T>::~LinkedList()
 	this->clear();
 }
 
-
 template<class T>
 inline LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other)
 {
-	// TODO
-}
-
-template<class T>
-inline LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& other)
-{
-	// TODO
+	this->clear();
+	if (other.head != NULL)
+		this->head = new LinkedListNode(*other.head);
+	this->_size = other.size();
+	return *this;
 }
 
 template<class T>
 inline LinkedList<T>& LinkedList<T>::operator=(std::initializer_list<T> data_list)
 {
-	// TODO
+	this->clear();
+	LinkedListNode<T>** temp = &this->head;
+	for (T element : data_list)
+	{
+		*temp = new LinkedListNode(element);
+		temp = &(*temp)->next;
+	}
+	this->_size = data_list.size();
+	return *this;
 }
 
 template <class T>

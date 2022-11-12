@@ -244,7 +244,26 @@ namespace tests
 			Assert::IsTrue(list1 == list2);
 		}
 
-		TEST_METHOD(test_copy_constructor_and_equality_comparison)
+		TEST_METHOD(test_assignment_operator)
+		{
+			LinkedList<int> list1;
+			LinkedList<int> list2({ 1, 2, 3, 4 });
+			list1 = list2;
+			Assert::IsTrue(list1 == list2);
+			Assert::AreEqual(4, list1[3]);
+			Assert::AreEqual(4, list2[3]);
+			Assert::AreEqual(size_t(4), list1.size());
+			Assert::AreEqual(size_t(4), list2.size());
+		}
+
+		TEST_METHOD(test_initializer_list_assignment_operator)
+		{
+			LinkedList<int> list = { 1, 2, 3, 4 };
+			Assert::AreEqual(4, list[3]);
+			Assert::AreEqual(size_t(4), list.size());
+		}
+
+		TEST_METHOD(test_copy_constructor)
 		{
 			LinkedList<int> list1(8);
 			LinkedList<int> list2(list1);
