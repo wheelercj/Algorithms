@@ -473,7 +473,7 @@ namespace tests
 			Assert::AreEqual(true, list.empty());
 		}
 
-		TEST_METHOD(test_iterator_with_indexed_loop)
+		TEST_METHOD(test_iterator_directly)
 		{
 			LinkedList<int> list = { 1, 2, 3, 4 };
 			for (auto it = list.begin(); it != list.end(); it++)
