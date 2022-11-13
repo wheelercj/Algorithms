@@ -4,6 +4,7 @@
 #include "sorting.h"
 using namespace std;
 
+void manual_linked_list_test();
 
 int main()
 {
@@ -26,4 +27,16 @@ int main()
 	cout << endl;
 	system("pause");
 	return 0;
+}
+
+void manual_linked_list_test()
+{
+	LinkedList<std::string> list;
+	list.append("a");
+	list.append("b");
+	list.append("c");
+	if (auto index = list.find("hey"))
+		std::cout << "\n index: " << *index;
+	else
+		std::cout << "\n \"hey\" is not in the list";
 }

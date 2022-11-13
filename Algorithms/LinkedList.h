@@ -2,8 +2,6 @@
 #include <vector>
 #include "LinkedListNode.h"
 
-void manual_linked_list_test();
-
 // TODO: learn about smart pointers.
 
 template <class T>
