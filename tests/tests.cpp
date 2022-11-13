@@ -473,7 +473,28 @@ namespace tests
 			Assert::AreEqual(true, list.empty());
 		}
 
-		/*TEST_METHOD(test_append_and_iterator)
+		TEST_METHOD(test_iterator_with_indexed_loop)
+		{
+			LinkedList<int> list = { 1, 2, 3, 4 };
+			for (auto it = list.begin(); it != list.end(); it++)
+				*it += 3;
+			Assert::AreEqual(4, list[0]);
+			Assert::AreEqual(5, list[1]);
+			Assert::AreEqual(6, list[2]);
+			Assert::AreEqual(7, list[3]);
+		}
+
+		TEST_METHOD(test_iterator_with_ranged_loop)
+		{
+			LinkedList<int> list = { 1, 2, 3, 4 };
+			for (auto& element : list)
+				element *= 2;
+			Assert::AreEqual(2, list[0]);
+			Assert::AreEqual(4, list[1]);
+			Assert::AreEqual(6, list[2]);
+			Assert::AreEqual(8, list[3]);
+		}
+
 		TEST_METHOD(test_find)
 		{
 			LinkedList<int> list = { 1, 2, 3, 4 };

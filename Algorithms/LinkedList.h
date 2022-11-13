@@ -95,6 +95,24 @@ public:
 	// Throws std::out_of_range if the index is out of bounds.
 	const T& operator[](size_t index) const;
 
+	class iterator
+	{
+	public:
+		friend class LinkedList;
+		iterator() noexcept;
+		iterator(LinkedListNode<T>*& current) noexcept;
+		T& operator*() const noexcept;
+		iterator& operator++() noexcept;
+		iterator operator++(int) noexcept;
+		bool operator!=(const iterator& other) const noexcept;
+	private:
+		LinkedListNode<T>* previous = NULL;
+		LinkedListNode<T>* current = NULL;
+	};
+
+	iterator begin() noexcept;
+	iterator end() noexcept;
+
 private:
 	LinkedListNode<T>* head = NULL;
 	size_t _size = 0;
@@ -448,4 +466,59 @@ inline const T& LinkedList<T>::operator[](size_t index) const
 	if (this->head == NULL)
 		throw std::out_of_range("The list is empty.");
 	return (*this->head)[index];
+}
+
+template <class T>
+inline LinkedList<T>::iterator::iterator() noexcept
+{
+	this->current = NULL;
+}
+
+template <class T>
+inline LinkedList<T>::iterator::iterator(LinkedListNode<T>*& current) noexcept
+{
+	this->current = current;
+}
+
+template <class T>
+inline T& LinkedList<T>::iterator::operator*() const noexcept
+{
+	return this->current->data;
+}
+
+template <class T>
+inline typename LinkedList<T>::iterator& LinkedList<T>::iterator::operator++() noexcept
+{
+	if (this->current != NULL)
+	{
+		this->previous = this->current;
+		this->current = this->current->next;
+	}
+	return *this;
+}
+
+template <class T>
+inline typename LinkedList<T>::iterator LinkedList<T>::iterator::operator++(int) noexcept
+{
+	iterator temp = *this;
+	++* this;
+	return temp;
+}
+
+template <class T>
+inline bool LinkedList<T>::iterator::operator!=(typename const iterator& other) const noexcept
+{
+	return this->current != other.current;
+}
+
+template <class T>
+inline typename LinkedList<T>::iterator LinkedList<T>::begin() noexcept
+{
+	return iterator(this->head);
+}
+
+template <class T>
+inline typename LinkedList<T>::iterator LinkedList<T>::end() noexcept
+{
+	return iterator();
 }
