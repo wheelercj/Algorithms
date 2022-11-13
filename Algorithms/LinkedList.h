@@ -10,23 +10,14 @@ template <class T>
 class LinkedList
 {
 public:
-	
-	LinkedList();
-
+	LinkedList() {};
 	LinkedList(T data);
-
 	LinkedList(std::initializer_list<T> data_list);
-
 	LinkedList(const LinkedList<T>& other);
-	
 	LinkedList(LinkedList<T>&& other) noexcept;
-
 	~LinkedList();
-	
 	LinkedList<T>& operator=(std::initializer_list<T> data_list);
-
 	LinkedList<T>& operator=(const LinkedList<T>& other);
-
 	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept;
 
 	// Adds a node with the given value to the end of the list.
@@ -69,12 +60,6 @@ public:
 	// Returns true if the list is empty, false otherwise.
 	bool empty() const;
 
-	// TODO: create iterator
-
-	/*LinkedList<T>::iterator begin();
-	
-	LinkedList<T>::iterator end();*/
-
 	// Finds a value, returning a 0-based index as if an array.
 	std::optional<size_t> find(T data);
 
@@ -111,16 +96,9 @@ public:
 	const T& operator[](size_t index) const;
 
 private:
-	
 	LinkedListNode<T>* head = NULL;
-
 	size_t _size = 0;
 };
-
-template<class T>
-inline LinkedList<T>::LinkedList()
-{
-}
 
 template<class T>
 inline LinkedList<T>::LinkedList(T data)
@@ -443,11 +421,10 @@ inline std::vector<T> LinkedList<T>::vector()
 template<class T>
 inline bool LinkedList<T>::operator==(const LinkedList<T>& other)
 {
-	if (other.head == NULL && this->head != NULL
-		|| other.head != NULL && this->head == NULL)
-		return false;
 	if (other.head == NULL && this->head == NULL)
 		return true;
+	if (other.head == NULL || this->head == NULL)
+		return false;
 	return *other.head == *this->head;
 }
 
