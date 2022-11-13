@@ -1,11 +1,10 @@
-// LinkedListNode isn't intended to be used outside the LinkedList class.
+// Do NOT use LinkedListNode outside the LinkedList class.
 // Some of its operations force use of a dummy head node while others expect
 // there to be no dummy head node, and the class uses the new operator but
-// not the delete operator.
+// not the delete operator. Also, stability of LinkedListNode is not guaranteed.
 #pragma once
 #include <exception>
 #include <optional>
-
 
 template <class T>
 class LinkedListNode
@@ -42,7 +41,7 @@ public:
 	size_t remove(size_t index1, size_t index2);
 
 	// Finds a value, returning its relative index based on the given starting index.
-	std::optional <size_t> find(T data, size_t index = 0);
+	std::optional<size_t> find(T data, size_t index = 0);
 
 	// Reverses the entire list.
 	LinkedListNode<T>* reverse(LinkedListNode<T>* previous);
