@@ -44,11 +44,10 @@ public:
 	// Deletes nodes inclusively between two given indexes.
 	// The indexes are relative.
 	// Returns the number of nodes removed.
-	// Throws std::out_of_range index1 >= the length of the list.
+	// Throws std::out_of_range if index1 >= the length of the list.
 	size_t remove(size_t index1, size_t index2);
 
-	// Finds a value, returning its relative index based on the
-	// given starting index.
+	// Finds a value, returning its relative index based on the given starting index.
 	std::optional <size_t> find(T data, size_t index = 0);
 
 	// Reverses the entire list.
@@ -57,8 +56,7 @@ public:
 	// Calls a given function on each value in the list.
 	void map(T(*f)(T data));
 
-	// Returns the combination of all values in the list,
-	// combined using a given function.
+	// Returns the combination of all values in the list, combined using a given function.
 	T reduce(T(*f)(T data1, T data2));
 
 	// Determines whether two linked lists have the same data and length.

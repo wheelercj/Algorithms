@@ -25,7 +25,7 @@ public:
 
 	LinkedList<T>& operator=(std::initializer_list<T> data_list);
 
-	// Adds a value to the end of the list.
+	// Adds a node with the given value to the end of the list.
 	void append(T data);
 
 	// Combines two lists, adding each value in the given list to the end of this list.
@@ -50,7 +50,7 @@ public:
 	T remove(size_t index);
 
 	// Deletes nodes inclusively between two given indexes.
-	// Throws std::out_of_range index1 >= the length of the list.
+	// Throws std::out_of_range if index1 >= the length of the list.
 	void remove(size_t index1, size_t index2);
 
 	// Deletes all the nodes in the list.
