@@ -18,12 +18,16 @@ public:
 	LinkedList(std::initializer_list<T> data_list);
 
 	LinkedList(const LinkedList<T>& other);
+	
+	LinkedList(LinkedList<T>&& other) noexcept;
 
 	~LinkedList();
+	
+	LinkedList<T>& operator=(std::initializer_list<T> data_list);
 
 	LinkedList<T>& operator=(const LinkedList<T>& other);
 
-	LinkedList<T>& operator=(std::initializer_list<T> data_list);
+	LinkedList<T>& operator=(LinkedList<T>&& other) noexcept;
 
 	// Adds a node with the given value to the end of the list.
 	void append(T data);
@@ -148,19 +152,15 @@ inline LinkedList<T>::LinkedList(const LinkedList<T>& other)
 }
 
 template<class T>
-inline LinkedList<T>::~LinkedList()
+inline LinkedList<T>::LinkedList(LinkedList<T>&& other) noexcept
 {
-	this->clear();
+	*this = std::move(other);
 }
 
 template<class T>
-inline LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other)
+inline LinkedList<T>::~LinkedList()
 {
 	this->clear();
-	if (other.head != NULL)
-		this->head = new LinkedListNode(*other.head);
-	this->_size = other.size();
-	return *this;
 }
 
 template<class T>
@@ -174,6 +174,30 @@ inline LinkedList<T>& LinkedList<T>::operator=(std::initializer_list<T> data_lis
 		temp = &(*temp)->next;
 	}
 	this->_size = data_list.size();
+	return *this;
+}
+
+template<class T>
+inline LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other)
+{
+	this->clear();
+	if (other.head != NULL)
+		this->head = new LinkedListNode(*other.head);
+	this->_size = other.size();
+	return *this;
+}
+
+template<class T>
+inline LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& other) noexcept
+{
+	if (this != &other)
+	{
+		this->clear();
+		this->head = other.head;
+		this->_size = other._size;
+		other.head = NULL;
+		other._size = 0;
+	}
 	return *this;
 }
 

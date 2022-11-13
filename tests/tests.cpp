@@ -272,12 +272,36 @@ namespace tests
 			Assert::AreEqual(size_t(4), list.size());
 		}
 
+		TEST_METHOD(test_move_assignment_operator)
+		{
+			std::vector<LinkedList<int>> v(2);
+			v[0] = LinkedList(8);
+			v[1] = LinkedList(9);
+			Assert::AreEqual(size_t(2), v.size());
+			Assert::AreEqual(8, v[0][0]);
+			Assert::AreEqual(size_t(1), v[0].size());
+			Assert::AreEqual(9, v[1][0]);
+			Assert::AreEqual(size_t(1), v[1].size());
+		}
+
 		TEST_METHOD(test_copy_constructor)
 		{
 			LinkedList<int> list1(8);
 			LinkedList<int> list2(list1);
 			Assert::IsTrue(list1 == list2);
 			Assert::AreEqual(size_t(1), list2.size());
+		}
+
+		TEST_METHOD(test_move_constructor)
+		{
+			std::vector<LinkedList<int>> v;
+			v.push_back(LinkedList(8));
+			v.push_back(LinkedList(9));
+			Assert::AreEqual(size_t(2), v.size());
+			Assert::AreEqual(8, v[0][0]);
+			Assert::AreEqual(size_t(1), v[0].size());
+			Assert::AreEqual(9, v[1][0]);
+			Assert::AreEqual(size_t(1), v[1].size());
 		}
 
 		TEST_METHOD(test_square_brackets)
