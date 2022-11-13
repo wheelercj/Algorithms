@@ -8,7 +8,7 @@ template <class T>
 class LinkedList
 {
 public:
-	LinkedList() {};
+	LinkedList() noexcept {};
 	LinkedList(T data);
 	LinkedList(std::initializer_list<T> data_list);
 	LinkedList(const LinkedList<T>& other);
@@ -50,13 +50,13 @@ public:
 	void clear();
 
 	// Returns the number of nodes in the list.
-	size_t size() const;
+	size_t size() const noexcept;
 
 	// An alias for the size function.
-	size_t length() const;
+	size_t length() const noexcept;
 
 	// Returns true if the list is empty, false otherwise.
-	bool empty() const;
+	bool empty() const noexcept;
 
 	// Finds a value, returning a 0-based index as if an array.
 	std::optional<size_t> find(T data) const;
@@ -350,19 +350,19 @@ inline void LinkedList<T>::clear()
 }
 
 template<class T>
-inline size_t LinkedList<T>::size() const
+inline size_t LinkedList<T>::size() const noexcept
 {
 	return this->_size;
 }
 
 template<class T>
-inline size_t LinkedList<T>::length() const
+inline size_t LinkedList<T>::length() const noexcept
 {
 	return this->size();
 }
 
 template<class T>
-inline bool LinkedList<T>::empty() const
+inline bool LinkedList<T>::empty() const noexcept
 {
 	return this->_size == 0;
 }
