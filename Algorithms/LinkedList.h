@@ -36,7 +36,7 @@ public:
 	void insert_multiple(std::initializer_list<T> data_list, size_t index);
 
 	// Prints the contents of the list, elements separated by commas and spaces.
-	void print(std::ostream& stream);
+	void print(std::ostream& stream) const;
 
 	// Deletes a node at a given index and returns its contents.
 	// Throws std::out_of_range if index >= the length of the list.
@@ -59,7 +59,7 @@ public:
 	bool empty() const;
 
 	// Finds a value, returning a 0-based index as if an array.
-	std::optional<size_t> find(T data);
+	std::optional<size_t> find(T data) const;
 
 	// Reverses the entire list.
 	void reverse();
@@ -71,19 +71,19 @@ public:
 	void map(T(*f)(T data));
 
 	// Creates a new list with only the nodes with values that make a given function return true.
-	LinkedList<T> filter(bool(*f)(T data));
+	LinkedList<T> filter(bool(*f)(T data)) const;
 
 	// Returns the combination of all values in the list, combined using a given function.
-	T reduce(T(*f)(T data1, T data2));
+	T reduce(T(*f)(T data1, T data2)) const;
 
 	// Collects the data from all nodes into a vector and returns it.
 	std::vector<T> vector();
 
 	// Determines whether two linked lists have the same data and length.
-	bool operator==(const LinkedList<T>& other);
+	bool operator==(const LinkedList<T>& other) const;
 
 	// Determines whether two linked lists do not have the same data and length.
-	bool operator!=(const LinkedList<T>& other);
+	bool operator!=(const LinkedList<T>& other) const;
 
 	// Returns a reference to an element of the list as if an array but with O(n) complexity.
 	// Throws std::out_of_range if the index is out of bounds.
@@ -276,7 +276,7 @@ inline void LinkedList<T>::insert_multiple(std::initializer_list<T> data_list, s
 }
 
 template<class T>
-inline void LinkedList<T>::print(std::ostream& stream)
+inline void LinkedList<T>::print(std::ostream& stream) const
 {
 	if (this->head != NULL)
 		this->head->print(stream);
@@ -368,7 +368,7 @@ inline bool LinkedList<T>::empty() const
 }
 
 template<class T>
-inline std::optional<size_t> LinkedList<T>::find(T data)
+inline std::optional<size_t> LinkedList<T>::find(T data) const
 {
 	if (this->head == NULL)
 		return {};
@@ -401,7 +401,7 @@ inline void LinkedList<T>::map(T(*f)(T data))
 }
 
 template<class T>
-inline LinkedList<T> LinkedList<T>::filter(bool(*f)(T data))
+inline LinkedList<T> LinkedList<T>::filter(bool(*f)(T data)) const
 {
 	LinkedList<T> other;
 	LinkedListNode<T>** other_ptr = &other.head;
@@ -418,7 +418,7 @@ inline LinkedList<T> LinkedList<T>::filter(bool(*f)(T data))
 }
 
 template<class T>
-inline T LinkedList<T>::reduce(T(*f)(T data1, T data2))
+inline T LinkedList<T>::reduce(T(*f)(T data1, T data2)) const
 {
 	if (this->head != NULL)
 		return this->head->reduce(f);
@@ -435,7 +435,7 @@ inline std::vector<T> LinkedList<T>::vector()
 }
 
 template<class T>
-inline bool LinkedList<T>::operator==(const LinkedList<T>& other)
+inline bool LinkedList<T>::operator==(const LinkedList<T>& other) const
 {
 	if (other.head == NULL && this->head == NULL)
 		return true;
@@ -445,7 +445,7 @@ inline bool LinkedList<T>::operator==(const LinkedList<T>& other)
 }
 
 template<class T>
-inline bool LinkedList<T>::operator!=(const LinkedList<T>& other)
+inline bool LinkedList<T>::operator!=(const LinkedList<T>& other) const
 {
 	return !(*this == other);
 }
