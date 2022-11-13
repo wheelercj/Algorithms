@@ -10,17 +10,11 @@
 template <class T>
 class LinkedListNode
 {
-
 public:
-
 	T data{};
-
 	LinkedListNode<T>* next = NULL;
-
-	LinkedListNode();
-
+	LinkedListNode() {};
 	LinkedListNode(T data);
-
 	LinkedListNode(const LinkedListNode<T>& node);
 
 	// Adds a value to the end of the list.
@@ -71,13 +65,7 @@ public:
 	// The index is relative.
 	// Throws std::out_of_range if the index is out of bounds.
 	const T& operator[](size_t index) const;
-
 };
-
-template<class T>
-inline LinkedListNode<T>::LinkedListNode()
-{
-}
 
 template<class T>
 inline LinkedListNode<T>::LinkedListNode(T data)
