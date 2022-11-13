@@ -101,7 +101,7 @@ private:
 	public:
 		T data{};
 		Node* next = NULL;
-		Node() {};
+		Node() noexcept {};
 		Node(T data);
 		Node(const Node& node);
 
@@ -117,7 +117,7 @@ private:
 		void insert_multiple(std::initializer_list<T> data_list, size_t index);
 
 		// Prints the contents of the list, elements separated by commas and spaces.
-		void print(std::ostream& stream);
+		void print(std::ostream& stream) const;
 
 		// Deletes and returns the contents of a node at a given index > 0. The index is relative.
 		// Throws std::out_of_range if index >= the length of the list.
@@ -130,7 +130,7 @@ private:
 		size_t remove(size_t index1, size_t index2);
 
 		// Finds a value, returning its relative index based on the given starting index.
-		std::optional<size_t> find(T data, size_t index = 0);
+		std::optional<size_t> find(T data, size_t index = 0) const;
 
 		// Reverses the entire list.
 		Node* reverse(Node* previous);
@@ -139,10 +139,10 @@ private:
 		void map(T(*f)(T data));
 
 		// Returns the combination of all values in the list, combined using a given function.
-		T reduce(T(*f)(T data1, T data2));
+		T reduce(T(*f)(T data1, T data2)) const;
 
 		// Determines whether two linked lists have the same data and length.
-		bool operator==(const Node& other);
+		bool operator==(const Node& other) const;
 
 		// Returns a reference to an element of the list as if an array but with O(n) complexity.
 		// The index is relative.
@@ -660,7 +660,7 @@ inline void LinkedList<T>::Node::insert_multiple(std::initializer_list<T> data_l
 }
 
 template<class T>
-inline void LinkedList<T>::Node::print(std::ostream& stream)
+inline void LinkedList<T>::Node::print(std::ostream& stream) const
 {
 	stream << this->data;
 	if (this->next != NULL)
@@ -706,7 +706,7 @@ inline size_t LinkedList<T>::Node::remove(size_t index1, size_t index2)
 }
 
 template<class T>
-inline std::optional<size_t> LinkedList<T>::Node::find(T data, size_t index)
+inline std::optional<size_t> LinkedList<T>::Node::find(T data, size_t index) const
 {
 	if (this->data == data)
 		return index;
@@ -737,7 +737,7 @@ inline void LinkedList<T>::Node::map(T(*f)(T data))
 }
 
 template<class T>
-inline T LinkedList<T>::Node::reduce(T(*f)(T data1, T data2))
+inline T LinkedList<T>::Node::reduce(T(*f)(T data1, T data2)) const
 {
 	if (this->next == NULL)
 		return this->data;
@@ -745,7 +745,7 @@ inline T LinkedList<T>::Node::reduce(T(*f)(T data1, T data2))
 }
 
 template<class T>
-inline bool LinkedList<T>::Node::operator==(const LinkedList<T>::Node& other)
+inline bool LinkedList<T>::Node::operator==(const LinkedList<T>::Node& other) const
 {
 	if (other.data != this->data
 		|| other.next == NULL && this->next != NULL
