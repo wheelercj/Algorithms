@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "LinkedListNode.h"
 
 void manual_linked_list_test();
@@ -87,6 +88,9 @@ public:
 
 	// Returns the combination of all values in the list, combined using a given function.
 	T reduce(T(*f)(T data1, T data2));
+
+	// Collects the data from all nodes into a vector and returns it.
+	std::vector<T> vector();
 
 	// Determines whether two linked lists have the same data and length.
 	bool operator==(const LinkedList<T>& other);
@@ -401,6 +405,15 @@ inline T LinkedList<T>::reduce(T(*f)(T data1, T data2))
 	if (this->head != NULL)
 		return this->head->reduce(f);
 	return T{};
+}
+
+template<class T>
+inline std::vector<T> LinkedList<T>::vector()
+{
+	std::vector<T> v;
+	for (LinkedListNode<T>* ptr = this->head; ptr != NULL; ptr = ptr->next)
+		v.push_back(ptr->data);
+	return v;
 }
 
 template<class T>

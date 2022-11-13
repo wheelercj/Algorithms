@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include <iostream>
+#include <vector>
 #include "../Algorithms/LinkedList.h"
 #include "../Algorithms/LinkedListNode.h"
 #include "../Algorithms/sorting.h"
@@ -510,6 +511,18 @@ namespace tests
 			LinkedList<int> list = { 1, 2, 3, 4, 5 };
 			Assert::AreEqual(15, list.reduce(add));
 			Assert::AreEqual(size_t(5), list.size());
+		}
+
+		TEST_METHOD(test_vector)
+		{
+			LinkedList<int> list = { 1, 2, 3, 4, 5 };
+			std::vector<int> v = list.vector();
+			Assert::AreEqual(size_t(5), v.size());
+			Assert::AreEqual(1, v[0]);
+			Assert::AreEqual(2, v[1]);
+			Assert::AreEqual(3, v[2]);
+			Assert::AreEqual(4, v[3]);
+			Assert::AreEqual(5, v[4]);
 		}
 
 	};
