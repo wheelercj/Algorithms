@@ -100,7 +100,7 @@ private:
 	{
 	public:
 		T data{};
-		Node* next = NULL;
+		Node* next = nullptr;
 		Node() noexcept {};
 		Node(T data);
 		Node(const Node& node);
@@ -168,8 +168,8 @@ public:
 		iterator operator++(int) noexcept;
 		bool operator!=(const iterator& other) const noexcept;
 	private:
-		Node* previous = NULL;
-		Node* current = NULL;
+		Node* previous = nullptr;
+		Node* current = nullptr;
 	};
 
 	iterator begin() noexcept;
@@ -207,7 +207,7 @@ inline LinkedList<T>::LinkedList(std::initializer_list<T> data_list)
 template<class T>
 inline LinkedList<T>::LinkedList(const LinkedList<T>& other)
 {
-	if (other.head != NULL)
+	if (other.head != nullptr)
 	{
 		this->head = new Node(*other.head);
 		this->_size = other.size();
@@ -244,7 +244,7 @@ template<class T>
 inline LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other)
 {
 	this->clear();
-	if (other.head != NULL)
+	if (other.head != nullptr)
 		this->head = new Node(*other.head);
 	this->_size = other.size();
 	return *this;
@@ -258,7 +258,7 @@ inline LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& other) noexcept
 		this->clear();
 		this->head = other.head;
 		this->_size = other._size;
-		other.head = NULL;
+		other.head = nullptr;
 		other._size = 0;
 	}
 	return *this;
@@ -267,7 +267,7 @@ inline LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& other) noexcept
 template <class T>
 inline void LinkedList<T>::append(T data)
 {
-	if (this->head != NULL)
+	if (this->head != nullptr)
 		this->head->append(data);
 	else
 		this->head = new Node(data);
@@ -278,10 +278,10 @@ template <class T>
 inline void LinkedList<T>::extend(const LinkedList<T>& other)
 {
 	Node** ptr = &this->head;
-	while (*ptr != NULL)
+	while (*ptr != nullptr)
 		ptr = &(*ptr)->next;
 	Node* other_ptr = other.head;
-	while (other_ptr != NULL)
+	while (other_ptr != nullptr)
 	{
 		*ptr = new Node(other_ptr->data);
 		ptr = &(*ptr)->next;
@@ -294,7 +294,7 @@ template<class T>
 inline void LinkedList<T>::extend(std::initializer_list<T> data_list)
 {
 	Node** ptr = &this->head;
-	while (*ptr != NULL)
+	while (*ptr != nullptr)
 		ptr = &(*ptr)->next;
 	for (T element : data_list)
 	{
@@ -309,7 +309,7 @@ inline void LinkedList<T>::insert(T data, size_t index)
 {
 	if (index > 0)
 	{
-		if (this->head == NULL)
+		if (this->head == nullptr)
 			throw std::out_of_range("The insertion index must be < the length of the list.");
 		this->head->insert(data, index);
 	}
@@ -327,13 +327,13 @@ inline void LinkedList<T>::insert_multiple(std::initializer_list<T> data_list, s
 {
 	if (index > 0)
 	{
-		if (this->head == NULL)
+		if (this->head == nullptr)
 			throw std::out_of_range("The insertion index must be < the length of the list.");
 		this->head->insert_multiple(data_list, index);
 	}
 	else
 	{
-		Node* temp = NULL;
+		Node* temp = nullptr;
 		for (auto it = std::rbegin(data_list); it != std::rend(data_list); it++)
 		{
 			temp = this->head;
@@ -347,14 +347,14 @@ inline void LinkedList<T>::insert_multiple(std::initializer_list<T> data_list, s
 template<class T>
 inline void LinkedList<T>::print(std::ostream& stream) const
 {
-	if (this->head != NULL)
+	if (this->head != nullptr)
 		this->head->print(stream);
 }
 
 template<class T>
 inline T LinkedList<T>::remove(size_t index)
 {
-	if (this->head == NULL)
+	if (this->head == nullptr)
 		throw std::out_of_range("The list is already empty.");
 	if (index > 0)
 	{
@@ -367,14 +367,14 @@ inline T LinkedList<T>::remove(size_t index)
 	Node* temp = this->head;
 	this->head = this->head->next;
 	delete temp;
-	temp = NULL;
+	temp = nullptr;
 	return temp_data;
 }
 
 template<class T>
 inline void LinkedList<T>::remove(size_t index1, size_t index2)
 {
-	if (this->head == NULL)
+	if (this->head == nullptr)
 		throw std::out_of_range("The list is already empty.");
 	if (index1 > index2)
 	{
@@ -387,10 +387,10 @@ inline void LinkedList<T>::remove(size_t index1, size_t index2)
 		this->_size -= this->head->remove(index1, index2);
 		return;
 	}
-	Node* temp = NULL;
+	Node* temp = nullptr;
 	for (size_t i = 0; i <= index2 - index1; i++)
 	{
-		if (this->head == NULL)
+		if (this->head == nullptr)
 		{
 			this->_size -= i;
 			return;
@@ -398,7 +398,7 @@ inline void LinkedList<T>::remove(size_t index1, size_t index2)
 		temp = this->head;
 		this->head = this->head->next;
 		delete temp;
-		temp = NULL;
+		temp = nullptr;
 	}
 	this->_size -= index2 - index1 + 1;
 }
@@ -406,10 +406,10 @@ inline void LinkedList<T>::remove(size_t index1, size_t index2)
 template<class T>
 inline void LinkedList<T>::clear()
 {
-	if (this->head == NULL)
+	if (this->head == nullptr)
 		return;
-	Node* temp = NULL;
-	while (this->head != NULL)
+	Node* temp = nullptr;
+	while (this->head != nullptr)
 	{
 		temp = this->head->next;
 		delete this->head;
@@ -439,7 +439,7 @@ inline bool LinkedList<T>::empty() const noexcept
 template<class T>
 inline std::optional<size_t> LinkedList<T>::find(T data) const
 {
-	if (this->head == NULL)
+	if (this->head == nullptr)
 		return {};
 	return this->head->find(data, 0);
 }
@@ -447,8 +447,8 @@ inline std::optional<size_t> LinkedList<T>::find(T data) const
 template<class T>
 inline void LinkedList<T>::reverse()
 {
-	if (this->head != NULL)
-		this->head = this->head->reverse(NULL);
+	if (this->head != nullptr)
+		this->head = this->head->reverse(nullptr);
 }
 
 template<class T>
@@ -465,7 +465,7 @@ inline void LinkedList<T>::swap(LinkedList<T>& other)
 template<class T>
 inline void LinkedList<T>::map(T(*f)(T data))
 {
-	if (this->head != NULL)
+	if (this->head != nullptr)
 		this->head->map(f);
 }
 
@@ -474,7 +474,7 @@ inline LinkedList<T> LinkedList<T>::filter(bool(*f)(T data)) const
 {
 	LinkedList<T> other;
 	Node** other_ptr = &other.head;
-	for (Node* ptr = this->head; ptr != NULL; ptr = ptr->next)
+	for (Node* ptr = this->head; ptr != nullptr; ptr = ptr->next)
 	{
 		if (f(ptr->data))
 		{
@@ -489,7 +489,7 @@ inline LinkedList<T> LinkedList<T>::filter(bool(*f)(T data)) const
 template<class T>
 inline T LinkedList<T>::reduce(T(*f)(T data1, T data2)) const
 {
-	if (this->head != NULL)
+	if (this->head != nullptr)
 		return this->head->reduce(f);
 	return T{};
 }
@@ -498,7 +498,7 @@ template<class T>
 inline std::vector<T> LinkedList<T>::vector() const
 {
 	std::vector<T> v;
-	for (Node* ptr = this->head; ptr != NULL; ptr = ptr->next)
+	for (Node* ptr = this->head; ptr != nullptr; ptr = ptr->next)
 		v.push_back(ptr->data);
 	return v;
 }
@@ -506,9 +506,9 @@ inline std::vector<T> LinkedList<T>::vector() const
 template<class T>
 inline bool LinkedList<T>::operator==(const LinkedList<T>& other) const
 {
-	if (other.head == NULL && this->head == NULL)
+	if (other.head == nullptr && this->head == nullptr)
 		return true;
-	if (other.head == NULL || this->head == NULL)
+	if (other.head == nullptr || this->head == nullptr)
 		return false;
 	return *other.head == *this->head;
 }
@@ -522,7 +522,7 @@ inline bool LinkedList<T>::operator!=(const LinkedList<T>& other) const
 template <class T>
 inline T& LinkedList<T>::operator[](size_t index)
 {
-	if (this->head == NULL)
+	if (this->head == nullptr)
 		throw std::out_of_range("The list is empty.");
 	return (*this->head)[index];
 }
@@ -530,7 +530,7 @@ inline T& LinkedList<T>::operator[](size_t index)
 template <class T>
 inline const T& LinkedList<T>::operator[](size_t index) const
 {
-	if (this->head == NULL)
+	if (this->head == nullptr)
 		throw std::out_of_range("The list is empty.");
 	return (*this->head)[index];
 }
@@ -542,7 +542,7 @@ inline const T& LinkedList<T>::operator[](size_t index) const
 template <class T>
 inline LinkedList<T>::iterator::iterator() noexcept
 {
-	this->current = NULL;
+	this->current = nullptr;
 }
 
 template <class T>
@@ -560,7 +560,7 @@ inline T& LinkedList<T>::iterator::operator*() const noexcept
 template <class T>
 inline typename LinkedList<T>::iterator& LinkedList<T>::iterator::operator++() noexcept
 {
-	if (this->current != NULL)
+	if (this->current != nullptr)
 	{
 		this->previous = this->current;
 		this->current = this->current->next;
@@ -608,14 +608,14 @@ template<class T>
 inline LinkedList<T>::Node::Node(const Node& node)
 {
 	this->data = node.data;
-	if (node.next != NULL)
+	if (node.next != nullptr)
 		this->next = new Node(*node.next);
 }
 
 template<class T>
 inline void LinkedList<T>::Node::append(T data)
 {
-	if (this->next != NULL)
+	if (this->next != nullptr)
 		this->next->append(data);
 	else
 		this->next = new Node(data);
@@ -633,7 +633,7 @@ inline void LinkedList<T>::Node::insert(T data, size_t index)
 		this->next = new_node;
 		return;
 	}
-	if (this->next == NULL)
+	if (this->next == nullptr)
 		throw std::out_of_range("The insertion index must be < the length of the list.");
 	this->next->insert(data, index - 1);
 }
@@ -645,7 +645,7 @@ inline void LinkedList<T>::Node::insert_multiple(std::initializer_list<T> data_l
 		throw std::logic_error("The index should never be 0 in this function.");
 	if (index == 1)
 	{
-		Node* temp = NULL;
+		Node* temp = nullptr;
 		for (auto it = std::rbegin(data_list); it != std::rend(data_list); it++)
 		{
 			temp = this->next;
@@ -654,7 +654,7 @@ inline void LinkedList<T>::Node::insert_multiple(std::initializer_list<T> data_l
 		}
 		return;
 	}
-	else if (this->next == NULL)
+	else if (this->next == nullptr)
 		throw std::out_of_range("The insertion index must be < the length of the list.");
 	this->next->insert_multiple(data_list, index - 1);
 }
@@ -663,7 +663,7 @@ template<class T>
 inline void LinkedList<T>::Node::print(std::ostream& stream) const
 {
 	stream << this->data;
-	if (this->next != NULL)
+	if (this->next != nullptr)
 	{
 		stream << ", ";
 		this->next->print(stream);
@@ -673,7 +673,7 @@ inline void LinkedList<T>::Node::print(std::ostream& stream) const
 template<class T>
 inline T LinkedList<T>::Node::remove(size_t index)
 {
-	if (this->next == NULL)
+	if (this->next == nullptr)
 		throw std::out_of_range("Index out of bounds.");
 	if (index > 1)
 		return this->next->remove(index - 1);
@@ -681,26 +681,26 @@ inline T LinkedList<T>::Node::remove(size_t index)
 	Node* temp = this->next;
 	this->next = this->next->next;
 	delete temp;
-	temp = NULL;
+	temp = nullptr;
 	return temp_data;
 }
 
 template<class T>
 inline size_t LinkedList<T>::Node::remove(size_t index1, size_t index2)
 {
-	if (this->next == NULL)
+	if (this->next == nullptr)
 		throw std::out_of_range("Index out of bounds.");
 	if (index1 > 1)
 		return this->next->remove(index1 - 1, index2 - 1);
-	Node* temp = NULL;
+	Node* temp = nullptr;
 	for (size_t i = 0; i <= index2 - index1; i++)
 	{
-		if (this->next == NULL)
+		if (this->next == nullptr)
 			return i;
 		temp = this->next;
 		this->next = this->next->next;
 		delete temp;
-		temp = NULL;
+		temp = nullptr;
 	}
 	return index2 - index1 + 1;
 }
@@ -710,7 +710,7 @@ inline std::optional<size_t> LinkedList<T>::Node::find(T data, size_t index) con
 {
 	if (this->data == data)
 		return index;
-	if (this->next == NULL)
+	if (this->next == nullptr)
 		return {};
 	return this->next->find(data, index + 1);
 }
@@ -718,7 +718,7 @@ inline std::optional<size_t> LinkedList<T>::Node::find(T data, size_t index) con
 template<class T>
 inline typename LinkedList<T>::Node* LinkedList<T>::Node::reverse(Node* previous)
 {
-	if (this->next != NULL)
+	if (this->next != nullptr)
 	{
 		Node* new_head = this->next->reverse(this);
 		this->next = previous;
@@ -732,14 +732,14 @@ template<class T>
 inline void LinkedList<T>::Node::map(T(*f)(T data))
 {
 	this->data = f(this->data);
-	if (this->next != NULL)
+	if (this->next != nullptr)
 		this->next->map(f);
 }
 
 template<class T>
 inline T LinkedList<T>::Node::reduce(T(*f)(T data1, T data2)) const
 {
-	if (this->next == NULL)
+	if (this->next == nullptr)
 		return this->data;
 	return f(this->data, this->next->reduce(f));
 }
@@ -748,10 +748,10 @@ template<class T>
 inline bool LinkedList<T>::Node::operator==(const LinkedList<T>::Node& other) const
 {
 	if (other.data != this->data
-		|| other.next == NULL && this->next != NULL
-		|| other.next != NULL && this->next == NULL)
+		|| other.next == nullptr && this->next != nullptr
+		|| other.next != nullptr && this->next == nullptr)
 		return false;
-	if (other.next == NULL && this->next == NULL)
+	if (other.next == nullptr && this->next == nullptr)
 		return true;
 	return *other.next == *this->next;
 }
@@ -761,7 +761,7 @@ inline T& LinkedList<T>::Node::operator[](size_t index)
 {
 	if (index == 0)
 		return this->data;
-	if (this->next == NULL)
+	if (this->next == nullptr)
 		throw std::out_of_range("Index out of bounds.");
 	return (*this->next)[index - 1];
 }
@@ -771,7 +771,7 @@ inline const T& LinkedList<T>::Node::operator[](size_t index) const
 {
 	if (index == 0)
 		return this->data;
-	if (this->next == NULL)
+	if (this->next == nullptr)
 		throw std::out_of_range("Index out of bounds.");
 	return (*this->next)[index - 1];
 }
