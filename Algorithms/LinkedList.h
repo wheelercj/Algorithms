@@ -747,12 +747,10 @@ inline T LinkedList<T>::Node::reduce(T(*f)(T data1, T data2)) const
 template<class T>
 inline bool LinkedList<T>::Node::operator==(const LinkedList<T>::Node& other) const
 {
-	if (other.data != this->data
-		|| other.next == nullptr && this->next != nullptr
-		|| other.next != nullptr && this->next == nullptr)
-		return false;
 	if (other.next == nullptr && this->next == nullptr)
 		return true;
+	if (other.data != this->data || other.next == nullptr || this->next == nullptr)
+		return false;
 	return *other.next == *this->next;
 }
 
