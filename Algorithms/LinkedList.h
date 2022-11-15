@@ -1,9 +1,8 @@
 #pragma once
 #include <exception>
+#include <memory>
 #include <optional>
 #include <vector>
-
-// TODO: learn about smart pointers.
 
 template <class T>
 class LinkedList
@@ -100,7 +99,7 @@ private:
 	{
 	public:
 		T data{};
-		Node* next = nullptr;
+		std::unique_ptr<Node> next;
 		Node() noexcept {};
 		Node(T data);
 		Node(const Node& node);
@@ -132,9 +131,6 @@ private:
 		// Finds a value, returning its relative index based on the given starting index.
 		std::optional<size_t> find(T data, size_t index = 0) const;
 
-		// Reverses the entire list.
-		Node* reverse(Node* previous);
-
 		// Calls a given function on each value in the list.
 		void map(T(*f)(T data));
 
@@ -163,7 +159,11 @@ public:
 		friend class LinkedList;
 		iterator() noexcept;
 		iterator(Node*& current) noexcept;
-		T& operator*() const noexcept;
+		iterator(const Node*& current) noexcept;
+		iterator(std::unique_ptr<Node>& current) noexcept;
+		iterator(const std::unique_ptr<Node>& current) noexcept;
+		T& operator*() noexcept;
+		const T& operator*() const noexcept;
 		iterator& operator++() noexcept;
 		iterator operator++(int) noexcept;
 		bool operator!=(const iterator& other) const noexcept;
@@ -173,11 +173,13 @@ public:
 	};
 
 	iterator begin() noexcept;
+	const iterator begin() const noexcept;
 	iterator end() noexcept;
+	const iterator end() const noexcept;
 
 private:
 
-	Node* head = NULL;
+	std::unique_ptr<Node> head;
 	size_t _size = 0;
 };
 
@@ -188,17 +190,17 @@ private:
 template<class T>
 inline LinkedList<T>::LinkedList(T data)
 {
-	this->head = new Node(data);
+	this->head = std::make_unique<Node>(data);
 	this->_size = 1;
 }
 
 template<class T>
 inline LinkedList<T>::LinkedList(std::initializer_list<T> data_list)
 {
-	Node** temp = &this->head;
-	for (T element : data_list)
+	std::unique_ptr<Node>* temp = &this->head;
+	for (T e : data_list)
 	{
-		*temp = new Node(element);
+		*temp = std::make_unique<Node>(e);
 		temp = &(*temp)->next;
 	}
 	this->_size = data_list.size();
@@ -209,7 +211,7 @@ inline LinkedList<T>::LinkedList(const LinkedList<T>& other)
 {
 	if (other.head != nullptr)
 	{
-		this->head = new Node(*other.head);
+		this->head = std::make_unique<Node>(other.head->data);
 		this->_size = other.size();
 	}
 }
@@ -231,9 +233,9 @@ inline LinkedList<T>& LinkedList<T>::operator=(std::initializer_list<T> data_lis
 {
 	this->clear();
 	Node** temp = &this->head;
-	for (T element : data_list)
+	for (T e : data_list)
 	{
-		*temp = new Node(element);
+		*temp = std::make_unique<Node>(e);
 		temp = &(*temp)->next;
 	}
 	this->_size = data_list.size();
@@ -245,7 +247,7 @@ inline LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other)
 {
 	this->clear();
 	if (other.head != nullptr)
-		this->head = new Node(*other.head);
+		this->head = std::make_unique<Node>(*other.head);
 	this->_size = other.size();
 	return *this;
 }
@@ -256,8 +258,8 @@ inline LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& other) noexcept
 	if (this != &other)
 	{
 		this->clear();
-		this->head = other.head;
-		this->_size = other._size;
+		this->head = std::move(other.head);
+		this->_size = std::move(other._size);
 		other.head = nullptr;
 		other._size = 0;
 	}
@@ -270,22 +272,20 @@ inline void LinkedList<T>::append(T data)
 	if (this->head != nullptr)
 		this->head->append(data);
 	else
-		this->head = new Node(data);
+		this->head = std::make_unique<Node>(data);
 	this->_size += 1;
 }
 
 template <class T>
 inline void LinkedList<T>::extend(const LinkedList<T>& other)
 {
-	Node** ptr = &this->head;
+	std::unique_ptr<Node>* ptr = &this->head;
 	while (*ptr != nullptr)
 		ptr = &(*ptr)->next;
-	Node* other_ptr = other.head;
-	while (other_ptr != nullptr)
+	for (T e : other)
 	{
-		*ptr = new Node(other_ptr->data);
+		*ptr = std::make_unique<Node>(e);
 		ptr = &(*ptr)->next;
-		other_ptr = other_ptr->next;
 	}
 	this->_size += other.size();
 }
@@ -293,12 +293,12 @@ inline void LinkedList<T>::extend(const LinkedList<T>& other)
 template<class T>
 inline void LinkedList<T>::extend(std::initializer_list<T> data_list)
 {
-	Node** ptr = &this->head;
+	std::unique_ptr<Node>* ptr = &this->head;
 	while (*ptr != nullptr)
 		ptr = &(*ptr)->next;
-	for (T element : data_list)
+	for (T e : data_list)
 	{
-		*ptr = new Node(element);
+		*ptr = std::make_unique<Node>(e);
 		ptr = &(*ptr)->next;
 	}
 	this->_size += data_list.size();
@@ -315,9 +315,9 @@ inline void LinkedList<T>::insert(T data, size_t index)
 	}
 	else
 	{
-		Node* temp = this->head;
-		this->head = new Node(data);
-		this->head->next = temp;
+		std::unique_ptr<Node> temp = std::move(this->head);
+		this->head = std::make_unique<Node>(data);
+		this->head->next = std::move(temp);
 	}
 	this->_size += 1;
 }
@@ -333,12 +333,11 @@ inline void LinkedList<T>::insert_multiple(std::initializer_list<T> data_list, s
 	}
 	else
 	{
-		Node* temp = nullptr;
 		for (auto it = std::rbegin(data_list); it != std::rend(data_list); it++)
 		{
-			temp = this->head;
-			this->head = new Node(*it);
-			this->head->next = temp;
+			std::unique_ptr<Node> temp = std::move(this->head);
+			this->head = std::make_unique<Node>(*it);
+			this->head->next = std::move(temp);
 		}
 	}
 	this->_size += data_list.size();
@@ -364,10 +363,7 @@ inline T LinkedList<T>::remove(size_t index)
 	}
 	this->_size -= 1;
 	T temp_data = this->head->data;
-	Node* temp = this->head;
-	this->head = this->head->next;
-	delete temp;
-	temp = nullptr;
+	this->head = std::move(this->head->next);
 	return temp_data;
 }
 
@@ -378,16 +374,15 @@ inline void LinkedList<T>::remove(size_t index1, size_t index2)
 		throw std::out_of_range("The list is already empty.");
 	if (index1 > index2)
 	{
-		size_t temp = index1;
-		index1 = index2;
-		index2 = temp;
+		size_t temp = std::move(index1);
+		index1 = std::move(index2);
+		index2 = std::move(temp);
 	}
 	if (index1 > 0)
 	{
 		this->_size -= this->head->remove(index1, index2);
 		return;
 	}
-	Node* temp = nullptr;
 	for (size_t i = 0; i <= index2 - index1; i++)
 	{
 		if (this->head == nullptr)
@@ -395,10 +390,7 @@ inline void LinkedList<T>::remove(size_t index1, size_t index2)
 			this->_size -= i;
 			return;
 		}
-		temp = this->head;
-		this->head = this->head->next;
-		delete temp;
-		temp = nullptr;
+		this->head = std::move(this->head->next);
 	}
 	this->_size -= index2 - index1 + 1;
 }
@@ -406,15 +398,7 @@ inline void LinkedList<T>::remove(size_t index1, size_t index2)
 template<class T>
 inline void LinkedList<T>::clear()
 {
-	if (this->head == nullptr)
-		return;
-	Node* temp = nullptr;
-	while (this->head != nullptr)
-	{
-		temp = this->head->next;
-		delete this->head;
-		this->head = temp;
-	}
+	this->head.reset();
 	this->_size = 0;
 }
 
@@ -447,19 +431,28 @@ inline std::optional<size_t> LinkedList<T>::find(T data) const
 template<class T>
 inline void LinkedList<T>::reverse()
 {
-	if (this->head != nullptr)
-		this->head = this->head->reverse(nullptr);
+	std::unique_ptr<Node> current = std::move(this->head);
+	std::unique_ptr<Node> previous = nullptr;
+	std::unique_ptr<Node> temp = nullptr;
+	while (current != nullptr)
+	{
+		temp = std::move(current->next);
+		current->next = std::move(previous);
+		previous = std::move(current);
+		current = std::move(temp);
+	}
+	this->head = std::move(previous);
 }
 
 template<class T>
 inline void LinkedList<T>::swap(LinkedList<T>& other)
 {
-	Node* temp_head = this->head;
-	this->head = other.head;
-	other.head = temp_head;
-	size_t temp_size = this->_size;
-	this->_size = other._size;
-	other._size = temp_size;
+	std::unique_ptr<Node> temp_head = std::move(this->head);
+	this->head = std::move(other.head);
+	other.head = std::move(temp_head);
+	size_t temp_size = std::move(this->_size);
+	this->_size = std::move(other._size);
+	other._size = std::move(temp_size);
 }
 
 template<class T>
@@ -473,12 +466,12 @@ template<class T>
 inline LinkedList<T> LinkedList<T>::filter(bool(*f)(T data)) const
 {
 	LinkedList<T> other;
-	Node** other_ptr = &other.head;
-	for (Node* ptr = this->head; ptr != nullptr; ptr = ptr->next)
+	std::unique_ptr<Node>* other_ptr = &other.head;
+	for (T& e : *this)
 	{
-		if (f(ptr->data))
+		if (f(e))
 		{
-			*other_ptr = new Node(ptr->data);
+			*other_ptr = std::make_unique<Node>(e);
 			other_ptr = &(*other_ptr)->next;
 			other._size += 1;
 		}
@@ -498,8 +491,8 @@ template<class T>
 inline std::vector<T> LinkedList<T>::vector() const
 {
 	std::vector<T> v;
-	for (Node* ptr = this->head; ptr != nullptr; ptr = ptr->next)
-		v.push_back(ptr->data);
+	for (T& e : *this)
+		v.push_back(e);
 	return v;
 }
 
@@ -552,7 +545,31 @@ inline LinkedList<T>::iterator::iterator(Node*& current) noexcept
 }
 
 template <class T>
-inline T& LinkedList<T>::iterator::operator*() const noexcept
+inline LinkedList<T>::iterator::iterator(const Node*& current) noexcept
+{
+	this->current = current;
+}
+
+template <class T>
+inline LinkedList<T>::iterator::iterator(std::unique_ptr<Node>& current) noexcept
+{
+	this->current = current.get();
+}
+
+template <class T>
+inline LinkedList<T>::iterator::iterator(const std::unique_ptr<Node>& current) noexcept
+{
+	this->current = current.get();
+}
+
+template <class T>
+inline T& LinkedList<T>::iterator::operator*() noexcept
+{
+	return this->current->data;
+}
+
+template <class T>
+inline const T& LinkedList<T>::iterator::operator*() const noexcept
 {
 	return this->current->data;
 }
@@ -563,7 +580,7 @@ inline typename LinkedList<T>::iterator& LinkedList<T>::iterator::operator++() n
 	if (this->current != nullptr)
 	{
 		this->previous = this->current;
-		this->current = this->current->next;
+		this->current = this->current->next.get();
 	}
 	return *this;
 }
@@ -589,7 +606,19 @@ inline typename LinkedList<T>::iterator LinkedList<T>::begin() noexcept
 }
 
 template <class T>
+inline const typename LinkedList<T>::iterator LinkedList<T>::begin() const noexcept
+{
+	return iterator(this->head);
+}
+
+template <class T>
 inline typename LinkedList<T>::iterator LinkedList<T>::end() noexcept
+{
+	return iterator();
+}
+
+template <class T>
+inline const typename LinkedList<T>::iterator LinkedList<T>::end() const noexcept
 {
 	return iterator();
 }
@@ -609,7 +638,7 @@ inline LinkedList<T>::Node::Node(const Node& node)
 {
 	this->data = node.data;
 	if (node.next != nullptr)
-		this->next = new Node(*node.next);
+		this->next = std::make_unique<Node>(*node.next);
 }
 
 template<class T>
@@ -618,7 +647,7 @@ inline void LinkedList<T>::Node::append(T data)
 	if (this->next != nullptr)
 		this->next->append(data);
 	else
-		this->next = new Node(data);
+		this->next = std::make_unique<Node>(data);
 }
 
 template<class T>
@@ -628,9 +657,9 @@ inline void LinkedList<T>::Node::insert(T data, size_t index)
 		throw std::logic_error("The index should never be 0 in this function.");
 	if (index == 1)
 	{
-		Node* new_node = new Node(data);
-		new_node->next = this->next;
-		this->next = new_node;
+		std::unique_ptr<Node> new_node = std::make_unique<Node>(data);
+		new_node->next = std::move(this->next);
+		this->next = std::move(new_node);
 		return;
 	}
 	if (this->next == nullptr)
@@ -645,12 +674,11 @@ inline void LinkedList<T>::Node::insert_multiple(std::initializer_list<T> data_l
 		throw std::logic_error("The index should never be 0 in this function.");
 	if (index == 1)
 	{
-		Node* temp = nullptr;
 		for (auto it = std::rbegin(data_list); it != std::rend(data_list); it++)
 		{
-			temp = this->next;
-			this->next = new Node(*it);
-			this->next->next = temp;
+			std::unique_ptr<Node> temp = std::move(this->next);
+			this->next = std::make_unique<Node>(*it);
+			this->next->next = std::move(temp);
 		}
 		return;
 	}
@@ -678,10 +706,7 @@ inline T LinkedList<T>::Node::remove(size_t index)
 	if (index > 1)
 		return this->next->remove(index - 1);
 	T temp_data = this->next->data;
-	Node* temp = this->next;
-	this->next = this->next->next;
-	delete temp;
-	temp = nullptr;
+	this->next = std::move(this->next->next);
 	return temp_data;
 }
 
@@ -692,15 +717,11 @@ inline size_t LinkedList<T>::Node::remove(size_t index1, size_t index2)
 		throw std::out_of_range("Index out of bounds.");
 	if (index1 > 1)
 		return this->next->remove(index1 - 1, index2 - 1);
-	Node* temp = nullptr;
 	for (size_t i = 0; i <= index2 - index1; i++)
 	{
 		if (this->next == nullptr)
 			return i;
-		temp = this->next;
-		this->next = this->next->next;
-		delete temp;
-		temp = nullptr;
+		this->next = std::move(this->next->next);
 	}
 	return index2 - index1 + 1;
 }
@@ -713,19 +734,6 @@ inline std::optional<size_t> LinkedList<T>::Node::find(T data, size_t index) con
 	if (this->next == nullptr)
 		return {};
 	return this->next->find(data, index + 1);
-}
-
-template<class T>
-inline typename LinkedList<T>::Node* LinkedList<T>::Node::reverse(Node* previous)
-{
-	if (this->next != nullptr)
-	{
-		Node* new_head = this->next->reverse(this);
-		this->next = previous;
-		return new_head;
-	}
-	this->next = previous;
-	return this;
 }
 
 template<class T>
