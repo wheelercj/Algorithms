@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Searching_and_Sorting {
+public class sorting {
 
     public static void main(String[] args) {
         final int SIZE = 10;
