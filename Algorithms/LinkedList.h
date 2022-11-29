@@ -70,7 +70,7 @@ public:
 	// Calls a given function on each value in the list.
 	void map(T(*f)(T data));
 
-	// Creates a new list with only the nodes with values that make a given function return true.
+	// Creates and returns a list with only the nodes with values that make a given function return true.
 	LinkedList<T> filter(bool(*f)(T data)) const;
 
 	// Returns the combination of all values in the list, combined using a given function.
@@ -657,9 +657,9 @@ inline void LinkedList<T>::Node::insert(T data, size_t index)
 		throw std::logic_error("The index should never be 0 in this function.");
 	if (index == 1)
 	{
-		std::unique_ptr<Node> new_node = std::make_unique<Node>(data);
-		new_node->next = std::move(next);
-		next = std::move(new_node);
+		std::unique_ptr<Node> node = std::make_unique<Node>(data);
+		node->next = std::move(next);
+		next = std::move(node);
 		return;
 	}
 	if (next == nullptr)
