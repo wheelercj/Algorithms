@@ -101,7 +101,7 @@ private:
 		T data{};
 		std::unique_ptr<Node> next;
 		Node() noexcept {};
-		Node(T data);
+		Node(T data) : data{data} {};
 		Node(const Node& node);
 
 		// Adds a value to the end of the list.
@@ -626,12 +626,6 @@ inline const typename LinkedList<T>::iterator LinkedList<T>::end() const noexcep
 /////////////////////////
 // LinkedList<T>::Node //
 /////////////////////////
-
-template<class T>
-inline LinkedList<T>::Node::Node(T data)
-{
-	this->data = data;
-}
 
 template<class T>
 inline LinkedList<T>::Node::Node(const Node& node)
