@@ -3,12 +3,12 @@ import heapq
 
 def dijkstra(
     graph: dict[str, list[tuple[str | int]]], start_node: str, target_node: str
-) -> int:
-    """Returns the cost of the shortest path in the graph from the start to the target.
+) -> tuple[int | list[str]]:
+    """Returns a tuple of (0) the cost of and (1) a list of names of the shortest path.
 
-    Here, "shortest" means cheapest, not necessarily fewest edges. Returns -1 if a path
-    is not found. Dijkstra's Shortest Path Algorithm requires each edge to have a
-    nonnegative cost.
+    Here, "shortest" means cheapest, not necessarily fewest edges. Returns an empty
+    tuple if a path is not found. Dijkstra's Shortest Path Algorithm requires each edge
+    to have a nonnegative cost.
 
     Parameters
     ----------
@@ -23,25 +23,29 @@ def dijkstra(
         The name of the node to go to.
     """
     # This function traverses the graph in kind of a breadth-first way, so a data
-    # structure is needed to temporarily hold nodes.
-    priority_queue: list[tuple[int | str]] = [(0, start_node)]
-    # priority_queue is a list of tuples, each with two elements: the total minimum cost
-    # to reach a node from the start node (int), and that node (str). Although it is a
-    # list, it is being changed only by the heapq.heappush and heapq.heappop functions
-    # so that it behaves like a min heap queue prioritized by the first element of each
-    # tuple (the cost).
+    # structure is needed to temporarily hold some data about nodes.
+    min_heap: list[tuple[int | str | list[str]]] = [(0, start_node, [start_node])]
+    # min_heap is a list of tuples, each with three elements:
+    #   1. the total minimum cost to reach a node from the start node (an integer)
+    #   2. that node's name (a string)
+    #   3. the shortest path up to and including that node (a list of strings)
+    # Although it is a list, it is being changed only by the heapq.heappush and
+    # heapq.heappop functions so that it behaves like a min heap prioritized by
+    # the first element of each tuple (the cost).
     visited_nodes: set[str] = set()
-    while priority_queue:
-        cost, cheapest_node = heapq.heappop(priority_queue)
+    while min_heap:
+        cost, cheapest_node, path = heapq.heappop(min_heap)
         visited_nodes.add(cheapest_node)
         if cheapest_node == target_node:
-            return cost
+            return (cost, path)
         for neighbor, neighbor_cost in graph[cheapest_node]:
             if neighbor in visited_nodes:
                 continue
             next_cost = cost + neighbor_cost
-            heapq.heappush(priority_queue, (next_cost, neighbor))
-    return -1
+            next_path = list(path)
+            next_path.append(neighbor)
+            heapq.heappush(min_heap, (next_cost, neighbor, next_path))
+    return ()
 
 
 graph = {
@@ -53,6 +57,8 @@ graph = {
     "Z": [("D", 7), ("E", 12), ("Z", 0)],
 }
 
-distance: int = dijkstra(graph, "A", "Z")
+distance, path = dijkstra(graph, "A", "Z")
 print(f"{distance = }")
 assert distance == 14
+print(f"{path = }")
+assert path == ["A", "C", "E", "D", "Z"]
