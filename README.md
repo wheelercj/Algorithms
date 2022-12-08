@@ -1,10 +1,8 @@
 # Algorithms
 
-Examples of common algorithms and data structures implemented and tested in C++ (and some in Java).
+Examples of various algorithms and data structures implemented and [thoroughly tested](https://github.com/wheelercj/Algorithms/tree/main/tests) in various languages. [Here](https://wheelercj.github.io/notes/pages/20210620152751.html) are other resources that helped me learn about algorithms.
 
-Requires C++17 or newer. In Visual Studio, you can choose the version of C++ with project > Properties > C/C++ > Language > C++ Language Standard.
-
-## sorting algorithms
+## sorting algorithms ([C++](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/sorting.cpp) and [Java](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/sorting.java))
 
 * bubble sort
 * selection sort
@@ -14,25 +12,13 @@ Requires C++17 or newer. In Visual Studio, you can choose the version of C++ wit
 * merge sort
 * heap sort
 
-## searching algorithms
-
-* linear search
-* binary search
-
 ## data structures
 
-* linked lists
-* coming soon: trees
-* coming soon: graphs
-
-## see also
-
-Here are some of the resources that helped me learn about algorithms:
-
-* [Big-O Cheat Sheet](https://www.bigocheatsheet.com/)
-* [Algorithms — Wikipedia](https://en.wikipedia.org/wiki/Sorting_algorithm)
-* [Data structure visualization](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
-* [_Data Structures & Algorithm Analysis_ by Clifford A. Shaffer](https://people.cs.vt.edu/shaffer/Book/)
-* [Why quicksort is better than other sorting algorithms in practice](https://cs.stackexchange.com/questions/3/why-is-quicksort-better-than-other-sorting-algorithms-in-practice)
-* [intro to recursion with C++](https://wheelercj.github.io/notes/pages/20220502232349.html)
-* [minimal doubly linked list](https://wheelercj.github.io/notes/pages/20221022135652.html)
+* a generic **[linked list](https://github.com/wheelercj/Algorithms/tree/main/Algorithms/LinkedList.h)** class implemented in C++
+    * uses unique pointers and `std::make_unique` to make memory leaks impossible
+    * upholds [The Rule of 5](https://www.codementor.io/@sandesh87/the-rule-of-five-in-c-1pdgpzb04f) and [RAII principles](https://en.cppreference.com/w/cpp/language/raii)
+    * follows much of the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) by Bjarne Stroustrup & Herb Sutter
+    * has all the methods one would expect as well as `reverse`, `map`, `filter`, and `reduce`.
+    * requires C++17 or newer
+* **trees** (coming soon)
+* **graphs** (coming soon)
