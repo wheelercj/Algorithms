@@ -21,7 +21,23 @@ void manual_sorting_test()
 	cout << "\n Unsorted array: ";
 	print(numbers, size);
 
-	sort_array(numbers, size);
+	struct is_greater
+	{
+		bool operator()(const int& left, const int& right)
+		{
+			return left > right;
+		}
+	};
+
+	struct are_equal
+	{
+		bool operator()(const int& left, const int& right)
+		{
+			return left == right;
+		}
+	};
+
+	prompt_and_sort_array<int, is_greater>(numbers, size);
 
 	cout << "\n Sorted array: ";
 	print(numbers, size);
@@ -30,7 +46,7 @@ void manual_sorting_test()
 	int value;
 	cin >> value;
 
-	int result = search_array(numbers, size, value);
+	int result = search_array<int, is_greater, are_equal>(numbers, size, value);
 
 	if (result == -1)
 		cout << "\n Error: number not found.";
@@ -39,10 +55,10 @@ void manual_sorting_test()
 }
 
 template <class T>
-void print(T numbers[], int size)
+void print(T items[], int size)
 {
 	for (int i = 0; i < size; i++)
-		cout << " " << numbers[i];
+		cout << " " << items[i];
 }
 
 template <class T>
@@ -53,31 +69,31 @@ inline void swap_(T& a, T& b)
 	b = temp;
 }
 
-template <class T>
-void sort_array(T numbers[], int size)
+template <class T, class is_greater>
+void prompt_and_sort_array(T items[], int size)
 {
 	switch (print_sort_menu())
 	{
 	case 1:
-		bubble_sort(numbers, size);
+		bubble_sort<T, is_greater>(items, size);
 		break;
 	case 2:
-		selection_sort(numbers, size);
+		selection_sort<T, is_greater>(items, size);
 		break;
 	case 3:
-		insertion_sort(numbers, size);
+		insertion_sort<T, is_greater>(items, size);
 		break;
 	case 4:
-		shell_sort(numbers, size);
+		shell_sort<T, is_greater>(items, size);
 		break;
 	case 5:
-		quicksort(numbers, 0, size - 1);
+		quicksort<T, is_greater>(items, 0, size - 1);
 		break;
 	case 6:
-		merge_sort(numbers, 0, size - 1);
+		merge_sort<T, is_greater>(items, 0, size - 1);
 		break;
 	case 7:
-		heap_sort(numbers, size);
+		heap_sort<T, is_greater>(items, size);
 		break;
 	default:
 		cout << "\n Error: invalid sorting algorithm choice.";
@@ -100,15 +116,15 @@ int print_sort_menu()
 	return choice;
 }
 
-template <class T>
-int search_array(T numbers[], int size, T value)
+template <class T, class is_greater, class are_equal>
+int search_array(T items[], int size, T value)
 {
 	switch (print_search_menu())
 	{
 	case 1:
-		return linear_search(numbers, size, value);
+		return linear_search<T, are_equal>(items, size, value);
 	case 2:
-		return binary_search(numbers, size, value);
+		return binary_search<T, is_greater, are_equal>(items, size, value);
 	default:
 		return -1;
 	}
@@ -125,151 +141,140 @@ int print_search_menu()
 	return choice;
 }
 
-template <class T>
-void bubble_sort(T numbers[], int size)
+template <class T, class is_greater>
+void bubble_sort(T items[], int size)
 {
 	bool swapped = true;
-
 	while (swapped)
 	{
 		swapped = false;
-
 		for (int i = 0; i < size - 1; i++)
 		{
-			if (numbers[i] > numbers[i + 1])
+			if (is_greater()(items[i], items[i + 1]))
 			{
+				swap_(items[i], items[i + 1]);
 				swapped = true;
-				swap_(numbers[i], numbers[i + 1]);
 			}
 		}
 	}
 }
 
-template <class T>
-void selection_sort(T numbers[], int size)
+template <class T, class is_greater>
+void selection_sort(T items[], int size)
 {
 	for (int i = 0; i < size - 1; i++)
 	{
 		int low = i;
-
 		for (int j = i + 1; j < size; j++)
 		{
-			if (numbers[j] < numbers[low])
+			if (is_greater()(items[low], items[j]))
 				low = j;
 		}
-
-		swap_(numbers[low], numbers[i]);
+		swap_(items[low], items[i]);
 	}
 }
 
-template <class T>
-void insertion_sort(T numbers[], int size)
+template <class T, class is_greater>
+void insertion_sort(T items[], int size)
 {
 	for (int i = 1; i < size; i++)
 	{
-		T key = numbers[i];
-
+		T key = items[i];
 		int j = i - 1;
-		for (; j >= 0 && key < numbers[j]; j--)
-			numbers[j + 1] = numbers[j];
-
-		numbers[j + 1] = key;
+		for (; j >= 0 && is_greater()(items[j], key); j--)
+			items[j + 1] = items[j];
+		items[j + 1] = key;
 	}
 }
 
-template<class T>
-void shell_sort(T numbers[], int size)
+template <class T, class is_greater>
+void shell_sort(T items[], int size)
 {
 	for (int gap = size / 2; gap > 0; gap /= 2)
 	{
 		for (int i = gap; i < size; i++)
 		{
-			T temp = numbers[i];
+			T temp = items[i];
 			int j = i;
-			for (; j >= gap && numbers[j - gap] > temp; j -= gap)
-				numbers[j] = numbers[j - gap];
-			numbers[j] = temp;
+			for (; j >= gap && is_greater()(items[j - gap], temp); j -= gap)
+				items[j] = items[j - gap];
+			items[j] = temp;
 		}
 	}
 }
 
-template <class T>
-void quicksort(T numbers[], int first, int last)
+template <class T, class is_greater>
+void quicksort(T items[], int first, int last)
 {
 	if (first < last)
 	{
-		int pivot = partition(numbers, first, last);
-		quicksort(numbers, first, pivot - 1);
-		quicksort(numbers, pivot, last);
+		int pivot = partition<T, is_greater>(items, first, last);
+		quicksort<T, is_greater>(items, first, pivot - 1);
+		quicksort<T, is_greater>(items, pivot, last);
 	}
 }
 
-template <class T>
-int partition(T numbers[], int first, int last)
+template <class T, class is_greater>
+int partition(T items[], int first, int last)
 {
-	T pivot_value = numbers[first + (last - first) / 2];
-	// `first+(last-first)/2` is the same as `(first+last)/2`, but cannot overflow
-
+	int mid = first + (last - first) / 2;
+	T pivot_value = items[mid];
 	while (first <= last)
 	{
-		while (numbers[first] < pivot_value)
+		while (is_greater()(pivot_value, items[first]))
 			first++;
-		while (numbers[last] > pivot_value)
+		while (is_greater()(items[last], pivot_value))
 			last--;
 		if (first <= last)
 		{
-			swap_(numbers[first], numbers[last]);
+			swap_(items[first], items[last]);
 			first++;
 			last--;
 		}
 	}
-
 	return first;
 }
 
-template <class T>
-void merge_sort(T numbers[], int left, int right)
+template <class T, class is_greater>
+void merge_sort(T items[], int left, int right)
 {
 	if (left < right)
 	{
 		int mid = left + (right - left) / 2;
-
-		merge_sort(numbers, left, mid);
-		merge_sort(numbers, mid + 1, right);
-
-		merge(numbers, left, mid, right);
+		merge_sort<T, is_greater>(items, left, mid);
+		merge_sort<T, is_greater>(items, mid + 1, right);
+		merge<T, is_greater>(items, left, mid, right);
 	}
 }
 
-template <class T>
-void merge(T numbers[], int left, int mid, int right)
+template <class T, class is_greater>
+void merge(T items[], int left, int mid, int right)
 {
-	const int left_size = mid - left + 1,
-		right_size = right - mid;
-	
+	const int left_size = mid - left + 1;
+	const int right_size = right - mid;
 	T* temp_left = new int[left_size];
 	T* temp_right = new int[right_size];
 
 	// copy the data to the temp arrays
 	for (int i = 0; i < left_size; i++)
-		temp_left[i] = numbers[left + i];
+		temp_left[i] = items[left + i];
 	for (int j = 0; j < right_size; j++)
-		temp_right[j] = numbers[mid + 1 + j];
+		temp_right[j] = items[mid + 1 + j];
 
-	// merge the temp arrays back into the numbers array
+	// merge the temp arrays back into the items array
 	int L = 0,
 		R = 0,
 		i = left;
 	while (L < left_size && R < right_size)
 	{
-		if (temp_left[L] <= temp_right[R])
+		if (!is_greater()(temp_left[L], temp_right[R]))
 		{
-			numbers[i] = temp_left[L];
+			items[i] = temp_left[L];
 			L++;
 		}
 		else
 		{
-			numbers[i] = temp_right[R];
+			items[i] = temp_right[R];
 			R++;
 		}
 
@@ -279,7 +284,7 @@ void merge(T numbers[], int left, int mid, int right)
 	// copy the remaining elements of temp_left[], if there are any
 	while (L < left_size)
 	{
-		numbers[i] = temp_left[L];
+		items[i] = temp_left[L];
 		L++;
 		i++;
 	}
@@ -287,7 +292,7 @@ void merge(T numbers[], int left, int mid, int right)
 	// copy the remaining elements of temp_right[], if there are any
 	while (R < right_size)
 	{
-		numbers[i] = temp_right[R];
+		items[i] = temp_right[R];
 		R++;
 		i++;
 	}
@@ -296,16 +301,16 @@ void merge(T numbers[], int left, int mid, int right)
 	delete[] temp_right;
 }
 
-template<class T>
-void heap_sort(T numbers[], int size)
+template <class T, class is_greater>
+void heap_sort(T items[], int size)
 {
 	// turn the array into a max heap
 	for (int i = 0; i < size; i++)
 	{
 		int j = i;
-		while (numbers[j] > numbers[(j - 1) / 2])
+		while (is_greater()(items[j], items[(j - 1) / 2]))
 		{
-			swap_(numbers[j], numbers[(j - 1) / 2]);
+			swap_(items[j], items[(j - 1) / 2]);
 			j = (j - 1) / 2;
 		}
 	}
@@ -313,31 +318,26 @@ void heap_sort(T numbers[], int size)
 	// Sort the array by putting the greatest number at the end, then
 	// the second greatest number in the second to last spot, etc.
 	int last = size - 1;
-	swap_(numbers[0], numbers[last]);
+	swap_(items[0], items[last]);
 	last--;
-
 	while (last > 0)
 	{
 		// rebuild the heap within the remaining elements
 		int parent = 0,
 			left_child = 1,
 			right_child = 2;
-
 		bool heaping = true;
 		while (heaping)
 		{
 			// find the greater of the two children
 			int max;
-			if (right_child > last || numbers[left_child] > numbers[right_child])
+			if (right_child > last || is_greater()(items[left_child], items[right_child]))
 				max = left_child;
 			else
 				max = right_child;
-			
-			// if the child is greater than the parent
-			if (numbers[max] > numbers[parent])
+			if (is_greater()(items[max], items[parent]))
 			{
-				// swap the child and the parent
-				swap_(numbers[max], numbers[parent]);
+				swap_(items[max], items[parent]);
 
 				// Prepare to check whether further swapping is needed to
 				// finish rebuilding the heap.
@@ -350,40 +350,35 @@ void heap_sort(T numbers[], int size)
 			else
 				heaping = false;
 		}
-
-		swap_(numbers[0], numbers[last]);
+		swap_(items[0], items[last]);
 		last--;
 	}
 }
 
-template <class T>
-int linear_search(T numbers[], int size, T value)
+template <class T, class are_equal>
+int linear_search(T items[], int size, T value)
 {
 	for (int i = 0; i < size; i++)
 	{
-		if (numbers[i] == value)
+		if (are_equal()(items[i], value))
 			return i;
 	}
-
 	return -1;
 }
 
-template <class T>
-int binary_search(T numbers[], int size, T value)
+template <class T, class is_greater, class are_equal>
+int binary_search(T items[], int size, T value)
 {
 	int first = 0;
-
 	while (true)
 	{
 		int mid = first + (size - first) / 2;
-		// `first+(size-first)/2` is the same as `(first+size)/2`, but cannot overflow
-
-		if (numbers[mid] > value)
+		if (is_greater()(items[mid], value))
 			size = mid - 1;
-		else if (numbers[mid] < value)
-			first = mid + 1;
-		else
+		else if (are_equal()(items[mid], value))
 			return mid;
+		else
+			first = mid + 1;
 		if (first > size)
 			return -1;
 	}

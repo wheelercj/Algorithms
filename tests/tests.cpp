@@ -8,6 +8,14 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+struct is_greater
+{
+	bool operator()(const int& left, const int& right)
+	{
+		return left > right;
+	}
+};
+
 int square(int number)
 {
 	return number * number;
@@ -76,7 +84,7 @@ namespace tests
 			while (true)
 			{
 				randomize(numbers, size, max_value);
-				bubble_sort(numbers, size);
+				bubble_sort<int, is_greater>(numbers, size);
 				if (numbers[0] == numbers[9])
 					continue;
 				swap_(numbers[0], numbers[9]);
@@ -98,7 +106,7 @@ namespace tests
 			for (int i = 0; i < 100; i++)
 			{
 				randomize(numbers, size, max_value);
-				bubble_sort(numbers, size);
+				bubble_sort<int, is_greater>(numbers, size);
 				assert_sorted(numbers, size);
 			}
 		}
@@ -111,7 +119,7 @@ namespace tests
 			for (int i = 0; i < 100; i++)
 			{
 				randomize(numbers, size, max_value);
-				selection_sort(numbers, size);
+				selection_sort<int, is_greater>(numbers, size);
 				assert_sorted(numbers, size);
 			}
 		}
@@ -124,7 +132,7 @@ namespace tests
 			for (int i = 0; i < 100; i++)
 			{
 				randomize(numbers, size, max_value);
-				insertion_sort(numbers, size);
+				insertion_sort<int, is_greater>(numbers, size);
 				assert_sorted(numbers, size);
 			}
 		}
@@ -137,7 +145,7 @@ namespace tests
 			for (int i = 0; i < 100; i++)
 			{
 				randomize(numbers, size, max_value);
-				shell_sort(numbers, size);
+				shell_sort<int, is_greater>(numbers, size);
 				assert_sorted(numbers, size);
 			}
 		}
@@ -150,7 +158,7 @@ namespace tests
 			for (int i = 0; i < 100; i++)
 			{
 				randomize(numbers, size, max_value);
-				quicksort(numbers, 0, size - 1);
+				quicksort<int, is_greater>(numbers, 0, size - 1);
 				assert_sorted(numbers, size);
 			}
 		}
@@ -163,7 +171,7 @@ namespace tests
 			for (int i = 0; i < 100; i++)
 			{
 				randomize(numbers, size, max_value);
-				merge_sort(numbers, 0, size - 1);
+				merge_sort<int, is_greater>(numbers, 0, size - 1);
 				assert_sorted(numbers, size);
 			}
 		}
@@ -176,7 +184,7 @@ namespace tests
 			for (int i = 0; i < 100; i++)
 			{
 				randomize(numbers, size, max_value);
-				heap_sort(numbers, size);
+				heap_sort<int, is_greater>(numbers, size);
 				assert_sorted(numbers, size);
 			}
 		}
