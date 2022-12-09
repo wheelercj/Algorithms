@@ -23,4 +23,4 @@ Examples of various algorithms and data structures implemented and [thoroughly t
 * **trees** implemented in Go
     * random binary tree generation
 * **graphs**
-    * [Dijkstra's Shortest Path](https://github.com/wheelercj/Algorithms/tree/main/Algorithms/dijkstra.py) implemented in Python
+    * Dijkstra's Shortest Path implemented in [Python](https://github.com/wheelercj/Algorithms/tree/main/Algorithms/dijkstra.py) and [C++](https://github.com/wheelercj/Algorithms/tree/main/Algorithms/dijkstra.h)
