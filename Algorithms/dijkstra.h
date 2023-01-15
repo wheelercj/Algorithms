@@ -67,10 +67,8 @@ namespace Dijkstra
 				result.path.push_back(closest_node.name);
 				return result;
 			}
-			std::vector<Node<Name, Cost>> neighbors = graph[closest_node.name];
-			for (size_t i = 0; i < neighbors.size(); i++)
+			for (Node<Name, Cost>& neighbor : graph[closest_node.name])
 			{
-				Node<Name, Cost> neighbor = neighbors[i];
 				if (visited_nodes.count(neighbor.name) != 0)
 					continue;
 				neighbor.cost += closest_node.cost;
