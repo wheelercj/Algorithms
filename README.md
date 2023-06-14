@@ -15,7 +15,7 @@ Examples of various algorithms and data structures implemented and [thoroughly t
 ## data structures
 
 * a generic **[linked list](https://github.com/wheelercj/Algorithms/tree/main/Algorithms/LinkedList.h)** class implemented in C++
-    * uses unique pointers and `std::make_unique` to make memory leaks impossible
+    * uses unique pointers and `std::make_unique` to make memory leaks nearly impossible
     * upholds [The Rule of 5](https://www.codementor.io/@sandesh87/the-rule-of-five-in-c-1pdgpzb04f) and [RAII principles](https://en.cppreference.com/w/cpp/language/raii)
     * follows much of the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) by Bjarne Stroustrup & Herb Sutter
     * has all the methods one would expect as well as `reverse`, `map`, `filter`, and `reduce`.
