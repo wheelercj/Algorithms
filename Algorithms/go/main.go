@@ -14,6 +14,7 @@ type Node struct {
 }
 
 func main() {
+	rand.Seed(time.Now().UTC().UnixNano())
 	for i := 0; i <= 2; i++ {
 		PrintTree(MakeBinaryTree(7))
 		fmt.Println()
@@ -70,9 +71,8 @@ func GetDepth(tree *Node) int {
 
 // MakeBinaryTree creates a random binary tree with up to maxLevels levels (and
 // 2^maxLevels-1 nodes). Each node holds a random integer in the range
-// [0, maxLevels).
+// [0, maxLevels). Requires `rand` to be seeded.
 func MakeBinaryTree(maxLevels int) *Node {
-	rand.Seed(time.Now().UTC().UnixNano())
 	return makeBinaryTree(maxLevels)
 }
 
