@@ -120,6 +120,7 @@
     <ClCompile Include="sorting.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dijkstra.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="sorting.h" />
   </ItemGroup>
