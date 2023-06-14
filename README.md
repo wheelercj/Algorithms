@@ -20,7 +20,8 @@ Examples of various algorithms and data structures implemented and [thoroughly t
     * follows much of the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) by Bjarne Stroustrup & Herb Sutter
     * has all the methods one would expect as well as `reverse`, `map`, `filter`, and `reduce`.
     * requires C++17 or newer
-* **trees** implemented in Go
+* [**trees**](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/go/main.go) implemented in Go
     * random binary tree generation
+    * random binary search tree (BST) generation
 * **graphs**
     * Dijkstra's Shortest Path implemented in [Python](https://github.com/wheelercj/Algorithms/tree/main/Algorithms/dijkstra.py) and [C++](https://github.com/wheelercj/Algorithms/tree/main/Algorithms/dijkstra.h)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"sort"
 	"time"
 )
 
@@ -15,10 +16,13 @@ type Node struct {
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
-	for i := 0; i <= 2; i++ {
-		PrintTree(MakeBinaryTree(6))
-		fmt.Println()
-	}
+	// for i := 0; i <= 2; i++ {
+	// 	PrintTree(MakeBinaryTree(6))
+	// 	fmt.Println()
+	// }
+	PrintTree(MakeBST(15))
+	fmt.Println()
+	PrintTree(MakeBST(15))
 }
 
 // PrintTree displays a binary tree. The output is left-aligned and each nil is
@@ -71,7 +75,7 @@ func GetDepth(tree *Node) int {
 
 // MakeBinaryTree creates a random binary tree with up to maxLevels levels (and
 // 2^maxLevels-1 nodes). Each node holds a random integer in the range
-// [0, maxLevels). Requires `rand` to be seeded.
+// [0, maxLevels). `rand` must be seeded.
 func MakeBinaryTree(maxLevels int) *Node {
 	return makeBinaryTree(maxLevels + 1)
 }
@@ -87,8 +91,26 @@ func makeBinaryTree(maxLevels int) *Node {
 	}
 }
 
-// MakeBST creates a random binary search tree.
-func MakeBST() *Node {
-	// TODO
-	return new(Node)
+// MakeBST creates a random binary search tree with up to maxNodes nodes. Each
+// node holds a random integer in the range [0, maxNodes). `rand` must be
+// seeded.
+func MakeBST(maxNodes int) *Node {
+	numbers := make([]int, rand.Intn(maxNodes))
+	for i := 0; i < len(numbers); i++ {
+		numbers[i] = rand.Intn(maxNodes)
+	}
+	sort.Ints(numbers)
+	return makeBST(numbers)
+}
+
+func makeBST(numbers []int) *Node {
+	if len(numbers) == 0 {
+		return nil
+	}
+	i := rand.Intn(len(numbers))
+	node := new(Node)
+	node.data = numbers[i]
+	node.left = makeBST(numbers[:i])
+	node.right = makeBST(numbers[i+1:])
+	return node
 }
