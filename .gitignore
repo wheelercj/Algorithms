@@ -6,3 +6,4 @@ pch.h
 Debug/
 *.iml
 out
+.idea
