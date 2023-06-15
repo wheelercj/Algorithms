@@ -16,13 +16,47 @@ type Node struct {
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
+
 	// for i := 0; i <= 2; i++ {
 	// 	PrintTree(MakeBinaryTree(6))
 	// 	fmt.Println()
 	// }
-	PrintTree(MakeBST(15))
+
+	bst := MakeBST(15)
+	PrintTree(bst)
+
 	fmt.Println()
-	PrintTree(MakeBST(15))
+
+	fmt.Println("Inorder traversal:")
+	PrintInorder(bst)
+	fmt.Println("\nPreorder traversal:")
+	PrintPreorder(bst)
+	fmt.Println("\nPostorder traversal:")
+	PrintPostorder(bst)
+
+	fmt.Println("\n\nGetInorder test:")
+	numbers := GetInorder(bst)
+	PrintInts(numbers)
+	AssertSorted(numbers)
+	fmt.Println("PrintTreeDFS test:")
+	PrintTreeDFS(bst)
+	fmt.Println("\nPrintTreeBFS test:")
+	PrintTreeBFS(bst)
+}
+
+func PrintInts(numbers []int) {
+	for i := 0; i < len(numbers); i++ {
+		fmt.Print(numbers[i], ", ")
+	}
+	fmt.Println()
+}
+
+func AssertSorted(numbers []int) {
+	for i := 0; i < len(numbers)-1; i++ {
+		if numbers[i] > numbers[i+1] {
+			fmt.Println("Error: the numbers are not sorted.", numbers[i], ">", numbers[i+1])
+		}
+	}
 }
 
 // PrintTree displays a binary tree. The output is left-aligned and each nil is
@@ -113,4 +147,69 @@ func makeBST(numbers []int) *Node {
 	node.left = makeBST(numbers[:i])
 	node.right = makeBST(numbers[i+1:])
 	return node
+}
+
+func GetInorder(root *Node) []int {
+	numbers := new([]int)
+	getInorder(numbers, root)
+	return *numbers
+}
+
+func getInorder(numbers *[]int, node *Node) {
+	if node == nil {
+		return
+	}
+	getInorder(numbers, node.left)
+	*numbers = append(*numbers, node.data)
+	getInorder(numbers, node.right)
+}
+
+func PrintInorder(node *Node) {
+	if node == nil {
+		return
+	}
+	PrintInorder(node.left)
+	fmt.Print(node.data, ", ")
+	PrintInorder(node.right)
+}
+
+func PrintPreorder(node *Node) {
+	if node == nil {
+		return
+	}
+	fmt.Print(node.data, ", ")
+	PrintPreorder(node.left)
+	PrintPreorder(node.right)
+}
+
+func PrintPostorder(node *Node) {
+	if node == nil {
+		return
+	}
+	PrintPostorder(node.left)
+	PrintPostorder(node.right)
+	fmt.Print(node.data, ", ")
+}
+
+func PrintTreeDFS(root *Node) {
+	PrintPreorder(root)
+}
+
+func PrintTreeBFS(root *Node) {
+	maxLevelNodes := int(math.Pow(2, float64(GetDepth(root)+1)))
+	q := make(chan *Node, maxLevelNodes)
+	q <- root
+	done := false
+	for !done {
+		select {
+		case node := <-q:
+			if node != nil {
+				fmt.Print(node.data, ", ")
+				q <- node.left
+				q <- node.right
+			}
+		default:
+			done = true
+		}
+	}
 }

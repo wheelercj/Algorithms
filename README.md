@@ -23,5 +23,6 @@ Examples of various algorithms and data structures implemented and [thoroughly t
 * [**trees**](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/go/main.go) implemented in Go
     * random binary tree generation
     * random binary search tree (BST) generation
+    * tree traversals (inorder, preorder, postorder, BFS, DFS)
 * **graphs**
     * Dijkstra's Shortest Path implemented in [Python](https://github.com/wheelercj/Algorithms/tree/main/Algorithms/dijkstra.py) and [C++](https://github.com/wheelercj/Algorithms/tree/main/Algorithms/dijkstra.h)
