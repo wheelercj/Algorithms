@@ -2,7 +2,7 @@
 
 Examples of various algorithms and data structures implemented and [thoroughly tested](https://github.com/wheelercj/Algorithms/tree/main/tests) in various languages. [Here](https://wheelercj.github.io/notes/pages/20210620152751.html) are other resources that helped me learn about algorithms.
 
-## sorting algorithms ([C++](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/sorting.cpp) and [Java](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/sorting.java))
+## searching and sorting algorithms ([C++](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/sorting.cpp) and [Java](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/sorting.java))
 
 * bubble sort
 * selection sort
@@ -11,6 +11,10 @@ Examples of various algorithms and data structures implemented and [thoroughly t
 * quicksort
 * merge sort
 * heap sort
+
+* linear search
+* binary search
+* [2D binary search](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/2d_search.java)
 
 ## data structures
 
