@@ -11,7 +11,6 @@ Examples of various algorithms and data structures implemented and [thoroughly t
 * quicksort
 * merge sort
 * heap sort
-
 * linear search
 * binary search
 * [2D binary search](https://github.com/wheelercj/Algorithms/blob/main/Algorithms/2d_search.java)
